@@ -1,0 +1,5 @@
+db.cheese.insert({factory:'Belgomilk',name:'Brugge',properties:{taste:'Salty', cheesetype:'hard cheese'}, variants:['Brugge Oud','Brugge Blomme','Brugge Belegen'], comments:[{by:'Aline', score:8.5,text:'Very fine'}, {by:'Thomas', score:7.5, text:'Very tasteful'}]});
+db.cheese.insert({factory:'Lindenhof',name:'Affligem',properties:{taste:'Soft', cheesetype:'abbeycheese'}, variants:['Affligem Traditie','Affligem Jong belegen'], comments:[{by:'Albert', score:9,text:'Very good choice'},{by:'Thamara', score:7.5, text:'Positif'}]});
+db.cheese.insert({factory:'Belgomilk',name:'Nazareth',properties:{taste:'Soft', cheesetype:'hard cheese'}, variants:['Nazareth Classic','Nazareth Light'], comments:[{by:'Ellen', score:4,text:'Not nice'}, {by:'Kjell', score:7.5, text:'Nice'}, {by:'Kristel', score:6, text:'Delicious'}]});
+db.cheese.insert({factory:'Lindenhof',name:'Grimbergen',properties:{taste:'Soft', cheesetype:'abbeycheese'}, variants:['Grimbergen Grand Cru'], comments:[{by:'Katrien', score:6.5,text:'Good choice'}, {by:'Martine', score:7, text:'Very tasteful'}]});
+

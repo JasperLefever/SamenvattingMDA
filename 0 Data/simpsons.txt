@@ -1,0 +1,39 @@
+CREATE (abe:Person:Male{name:'Abe Simpson', yearOfBirth: 1925}),
+       (mona:Person:Female{name:'Mona Simpson', yearOfBirth: 1930}),
+       (herb:Person:Male{name:'Herb Simpson', yearOfBirth: 1953}),
+       (homer:Person:Male{name:'Homer Simpson', yearOfBirth: 1955}),
+       (bart:Person:Male{name:'Bart Simpson', yearOfBirth: 1985}),
+       (lisa:Person:Female{name:'Lisa Simpson', yearOfBirth: 1987}),
+	(maggie:Person:Female{name:'Maggie Simpson', yearOfBirth: 1993}),
+	(marge:Person:Female{name:'Marge Bouvier', yearOfBirth: 1956}),
+	(patty:Person:Female{name:'Patty Bouvier', yearOfBirth: 1955}),
+	(selma:Person:Female{name:'Selma Bouvier', yearOfBirth: 1958}),
+	(ling:Person:Female{name:'Ling Bouvier', yearOfBirth: 1994}),
+	(clancy:Person:Male{name:'Clancy Bouvier', yearOfBirth: 1928}),
+	(jacqueline:Person:Female{name:'Jacqueline Bouvier', yearOfBirth: 1930})
+
+CREATE 	(abe)-[:FATHER_OF]->(herb),
+	(abe)-[:FATHER_OF]->(homer),
+	(homer)-[:FATHER_OF]->(bart),
+	(homer)-[:FATHER_OF]->(lisa),
+	(homer)-[:FATHER_OF]->(maggie),
+	(clancy)-[:FATHER_OF]->(marge),
+	(clancy)-[:FATHER_OF]->(patty),
+	(clancy)-[:FATHER_OF]->(selma)
+
+CREATE	(mona)-[:MOTHER_OF]->(herb),
+	(mona)-[:MOTHER_OF]->(homer),
+	(marge)-[:MOTHER_OF]->(bart),
+	(marge)-[:MOTHER_OF]->(lisa),
+	(marge)-[:MOTHER_OF]->(maggie),
+	(jacqueline)-[:MOTHER_OF]->(marge),
+	(jacqueline)-[:MOTHER_OF]->(patty),
+	(jacqueline)-[:MOTHER_OF]->(selma),
+	(selma)-[:MOTHER_OF]->(ling)
+
+CREATE	(abe)-[:TOGETHER_WITH {since:1950}]->(mona),
+	(clancy)-[:TOGETHER_WITH {since:1950}]->(jacqueline),
+	(homer)-[:TOGETHER_WITH {since:1982}]->(marge),
+	(mona)-[:TOGETHER_WITH {since:1950}]->(abe),
+	(jacqueline)-[:TOGETHER_WITH {since:1950}]->(clancy),
+	(marge)-[:TOGETHER_WITH {since:1982}]->(homer)

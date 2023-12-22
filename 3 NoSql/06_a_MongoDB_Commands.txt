@@ -1,0 +1,153 @@
+/* Mongo DB */
+use info
+db.zips.find()
+
+db.zips.find().limit(1)
+
+db.zips.count()
+
+db.zips.find({city:'NEW YORK'})
+
+/* 6.3	Single Purpose Aggregation Operations */
+
+db.zips.count({state : "MA"})
+
+db.zips.distinct("state")
+
+db.zips.distinct("state").length
+
+/* 6.5 Aggregation Pipeline */
+/*
+The MongoDB aggregation pipeline consists of stages. Each stage transforms the documents 
+as they pass through the pipeline. Pipeline stages do not need to produce one output 
+document for every input document; 
+e.g., some stages may generate new documents or filter out documents.
+*/
+/* 6.5.1	Example 1 Return States with Populations above 10 Million */
+db.zips.aggregate([
+{$group: {_id:"$state",totalPop:{$sum:"$pop"}}},
+{$match:{totalPop:{$gte:10000000}}}
+])
+
+/* 6.5.2	Example 2 Return Average City Population by State */
+/* a state/city combination can have >1 zipcode */
+
+db.zips.aggregate( [
+   { $group: { _id: { state: "$state", city: "$city" }, pop: { $sum: "$pop" } } },
+   { $group: { _id: "$_id.state", avgCityPop: { $avg: "$pop" } } }
+   ])
+
+db.zips.aggregate( [
+   { $group: { _id: { state: "$state", city: "$city" }, pop: { $sum: "$pop" } } }/*,
+   { $group: { _id: "$_id.state", avgCityPop: { $avg: "$pop" } } }*/
+   ])
+   
+/* 6.5.3	Example 3 Return Largest and Smallest Cities by State */
+db.zips.aggregate( [
+   { $group:
+      {
+        _id: { state: "$state", city: "$city" },
+        pop: { $sum: "$pop" }
+      }
+   },
+   { $sort: { pop: 1 } },
+   { $group:
+      {
+        _id : "$_id.state",
+        biggestCity:  { $last: "$_id.city" },
+        biggestPop:   { $last: "$pop" },
+        smallestCity: { $first: "$_id.city" },
+        smallestPop:  { $first: "$pop" }
+      }
+   },
+
+  // the following $project is optional, and
+  // modifies the output format.
+
+  { $project:
+    { _id: 0,
+      state: "$_id",
+      biggestCity:  { name: "$biggestCity",  pop: "$biggestPop" },
+      smallestCity: { name: "$smallestCity", pop: "$smallestPop" }
+    }
+  }
+] )
+
+/* 6.5.4	Example 4 Return the number of zipcodes for each state, only show top 5 states */
+db.zips.aggregate([{$project : {state : 1, city : 1}}, 
+/*select fields to project by specifying "fieldname" : 1 or exclude fields with "fieldname" : 0*/
+{$group : {_id : "$state", count : {$sum : 1}}}, 
+{$sort : {count : -1}}, 
+{$limit : 5}
+] )
+
+db.zips.aggregate([{$project : {state : 1, city : 1}}/*,
+{$group : {_id : "$state", count : {$sum : 1}}}, 
+{$sort : {count : -1}}, 
+{$limit : 5}*/
+] )
+
+use info
+db.users.find()
+/* 6.6.1	Example 1 Normalize and Sort Documents */
+/* The following operation returns user names in upper case and in alphabetical order. 
+The aggregation includes user names for all documents in the users collection. 
+You might do this to normalize user names for processing.*/
+db.users.aggregate(
+  [
+    { $project : { name:{$toUpper:"$_id"} , _id:0 } },
+    { $sort : { name : 1 } }
+  ]
+)
+
+/* 6.6.2	Example 2 Return Usernames Ordered by Join Month */
+db.users.aggregate(
+  [
+    { $project :
+       {
+         month_joined : { $month : "$joined" },
+         name : "$_id",
+         _id : 0
+       }
+    },
+    { $sort : { month_joined : 1 } }
+  ]
+)
+
+/* 6.6.3	Example 3 Return Total Number of Joins per Month */
+db.users.aggregate(
+  [
+    { $project : { month_joined : { $month : "$joined" } } } ,
+    { $group : { _id : {month_joined:"$month_joined"} , number : { $sum : 1 } } },
+    { $sort : { "_id.month_joined" : 1 } }
+  ]
+)
+
+/* 6.6.4	Example 4 Return the Five Most Common “Likes” */
+/* The following aggregation collects top five most “liked” activities in the data set. 
+This type of analysis could help inform planning and future development.*/
+/* The $unwind operator separates each value in the likes array, 
+and creates a new version of the source document for every element in the array.*/
+db.users.aggregate(
+  [
+    { $unwind : "$likes" },
+    { $group : { _id : "$likes" , number : { $sum : 1 } } },
+    { $sort : { number : -1 } },
+    { $limit : 5 }
+  ]
+)
+
+db.users.aggregate(
+  [
+    { $unwind : "$likes" }/*,
+    { $group : { _id : "$likes" , number : { $sum : 1 } } },
+    { $sort : { number : -1 } },
+    { $limit : 5 }*/
+  ]
+)
+
+
+
+
+
+
