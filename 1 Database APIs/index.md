@@ -55,5 +55,3 @@
 ### Other Object Persistence Technologies (ActiveRecord, Entity Framework, SQLAlchemy)
 
 ## 1.4 Exercise in Python
-
-Dit overzicht omvat de hoofdonderwerpen en subonderwerpen van het document, gericht op verschillende aspecten van database-API's, hun architectuur, en objectpersistentie.
