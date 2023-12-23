@@ -28,6 +28,16 @@
     - [Datalake](#datalake)
     - [Nog veel azure bla bla Slide 35 tot 55 nie echt relevant denk ik](#nog-veel-azure-bla-bla-slide-35-tot-55-nie-echt-relevant-denk-ik)
   - [4.7. Snowflake](#47-snowflake)
+    - [Introduction](#introduction)
+    - [Multi-cluster shared data architecture](#multi-cluster-shared-data-architecture)
+    - [Data Architecture](#data-architecture)
+    - [Virtual Warehouses](#virtual-warehouses)
+    - [Query pruning](#query-pruning)
+    - [Micro-Partitioning](#micro-partitioning)
+    - [Data clustering](#data-clustering)
+    - [Semi-structured data](#semi-structured-data)
+    - [Vergelijkingske hoppa](#vergelijkingske-hoppa)
+    - [Use Cases](#use-cases)
 
 ## 4.1. Cloud Models
 
@@ -266,5 +276,38 @@ Een datalake is een gecentraliseerde opslagplaats die grote hoeveelheden ruwe da
 - Dataplatform en datawarehouse dat SQL ondersteunt
 - Cross-cloud platform
 
-Wordt vervolgd :)
-TODO: Finish this
+### Introduction
+
+### Multi-cluster shared data architecture
+
+### Data Architecture
+
+### Virtual Warehouses
+
+### Query pruning
+
+### Micro-Partitioning
+
+### Data clustering
+
+### Semi-structured data
+
+- Snowflake ondersteunt semi-gestructureerde data
+  - zoals json
+
+### Vergelijkingske hoppa
+
+![Comparison Snowflake1](./assets/snowflake_mssql_compare.png)
+![Alt text](./assets/snowflake_mongodb_compare.png)
+
+### Use Cases
+
+- Data warehousing
+  - Centraliseerde opslag
+  - Snowflake dient als een gecentraliseerde opslagplaats voor het opslaan en beheren van grote volumes aan gestructureerde en semi-gestructureerde data. Het faciliteert efficiënte data-opslag voor analyse.
+- Data sharing
+  - Veilige samenwerking
+  - Organisaties kunnen data veilig delen met derden. deze functie is waardevol voor samenwerkingsprojecten en data monetization strategieën.
+- Advanced analytics
+  - Complexe analyse en rapportering
+  - Snowflake zijn hoge performantie analitische functies maken het mogelijk om complexe queries uit te voeren op grote hoeveelheden data.
