@@ -17,7 +17,10 @@
     - [Identify a service type based on a use case](#identify-a-service-type-based-on-a-use-case)
     - [Shared responsibility model](#shared-responsibility-model)
   - [4.4. Cloud Databases](#44-cloud-databases)
-  - [4.5. Snowflake](#45-snowflake)
+    - [What is a cloud database?](#what-is-a-cloud-database)
+    - [Cloud (Database) Providers](#cloud-database-providers)
+  - [4.6. Azure en Microsoft verkoopspraatje van de bovenste plank (Data on Ms Azure)](#46-azure-en-microsoft-verkoopspraatje-van-de-bovenste-plank-data-on-ms-azure)
+  - [4.7. Snowflake](#47-snowflake)
 
 ## 4.1. Cloud Models
 
@@ -126,4 +129,33 @@ Cloud diensten betaal je op basis van wat je effectief gebruikt. Dit levert volg
 
 ## 4.4. Cloud Databases
 
-## 4.5. Snowflake
+### What is a cloud database?
+
+- **Cloud database**:
+  - Database die in de cloud draait (duh)
+  - geleverd door de public of private cloud provider
+  - data managed op cloud storage
+  - deze systemen zijn ontworpen om verschillende applicaties te ondersteunen zoals transactionele, analytische workloads, deep learning en data warehousing
+
+### Cloud (Database) Providers
+
+- **Cloud providers**:
+  - **Microsoft Azure**
+  - [**Snowflake cloud database**](#45-snowflake)
+  - Amazon Web Services (AWS)
+  - Google Cloud
+  - IBM
+  - Oracle Cloud Architecture (OCI) -> dure vogels
+  - Alibaba
+  - etc.
+
+## 4.6. Azure en Microsoft verkoopspraatje van de bovenste plank (Data on Ms Azure)
+
+## 4.7. Snowflake
+
+- defacto standaard voor cloud datawarehousing
+- Dataplatform en datawarehouse dat SQL ondersteunt
+- Cross-cloud platform
+
+Wordt vervolgd :)
+TODO: Finish this
