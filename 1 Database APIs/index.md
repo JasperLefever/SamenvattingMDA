@@ -1,6 +1,6 @@
-# 1 Database APIs
+# 1. Database APIs
 
-- [1 Database APIs](#1-database-apis)
+- [1. Database APIs](#1-database-apis)
   - [1.1 Database System Architectures](#11-database-system-architectures)
     - [Centralized System Architecture](#centralized-system-architecture)
     - [Tiered System Architectures](#tiered-system-architectures)
@@ -55,3 +55,7 @@
 ### Other Object Persistence Technologies (ActiveRecord, Entity Framework, SQLAlchemy)
 
 ## 1.4 Exercise in Python
+
+Rare dingen die oef ma bon den oplossing staat [Hier](./3._sqlalchemy_exercise.py)
+
+Tis overal een mac connectiestring dus ge zult moeten aanpassen wss (kheb nie proberen runnen ma gwn de les gecopieerd)
