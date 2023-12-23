@@ -20,6 +20,13 @@
     - [What is a cloud database?](#what-is-a-cloud-database)
     - [Cloud (Database) Providers](#cloud-database-providers)
   - [4.6. Azure en Microsoft verkoopspraatje van de bovenste plank (Data on Ms Azure)](#46-azure-en-microsoft-verkoopspraatje-van-de-bovenste-plank-data-on-ms-azure)
+    - [Roles in Azure](#roles-in-azure)
+    - [Data ingestion](#data-ingestion)
+    - [Data processing](#data-processing)
+    - [Extract, Transform, Load (ETL)](#extract-transform-load-etl)
+    - [Extract, Load, Transform (ELT)](#extract-load-transform-elt)
+    - [Datalake](#datalake)
+    - [Nog veel azure bla bla Slide 35 tot 55 nie echt relevant denk ik](#nog-veel-azure-bla-bla-slide-35-tot-55-nie-echt-relevant-denk-ik)
   - [4.7. Snowflake](#47-snowflake)
 
 ## 4.1. Cloud Models
@@ -140,8 +147,8 @@ Cloud diensten betaal je op basis van wat je effectief gebruikt. Dit levert volg
 ### Cloud (Database) Providers
 
 - **Cloud providers**:
-  - **Microsoft Azure**
-  - [**Snowflake cloud database**](#45-snowflake)
+  - [**Microsoft Azure**](#46-azure-en-microsoft-verkoopspraatje-van-de-bovenste-plank-data-on-ms-azure)
+  - [**Snowflake cloud database**](#47-snowflake)
   - Amazon Web Services (AWS)
   - Google Cloud
   - IBM
@@ -150,6 +157,108 @@ Cloud diensten betaal je op basis van wat je effectief gebruikt. Dit levert volg
   - etc.
 
 ## 4.6. Azure en Microsoft verkoopspraatje van de bovenste plank (Data on Ms Azure)
+
+### Roles in Azure
+
+- **Database Administrator**:
+  - database beheerder
+  - data beveiliging
+  - backup en recovery
+  - user access
+  - monitoring
+  - **Tools**:
+    - Azure Data Studio -> cross platform lite versie van SSMS
+    - SQL Server Management Studio -> Kan alles
+    - Azure portal / CLI
+      - tool voor het beheren van Azure resources
+      - scripting mogelijkheden
+- **Data Engineer**
+  - Data pipelines en processen
+  - Data ingest
+  - Data voorbereiden voor analyse
+  - Data voorbereiden voor processing
+    - **Tools**:
+      - Azure Synapse Studio
+      - SQL Server Management Studio -> idem
+      - Azure portal / CLI -> idem
+- **Data Analyst**
+  - Levert inzichten uit data
+  - Data visualisatie
+  - Modeleren van data
+  - combineren van data voor visualisatie en analyse
+    - **Tools**:
+      - Power BI Desktop -> data visualisatie
+      - Power BI Portal -> management van Power BI
+      - Power BI Report builder -> rapporten maken
+
+### Data ingestion
+
+Data ingestion is het proces van het verplaatsen van data van diverse bronnen naar een opslagmedium waar het verder kan worden opgeslagen, geanalyseerd, en verwerkt. Dit proces is een cruciale eerste stap in data-analyse en business intelligence. Hier zijn enkele kernpunten over data ingestion:
+
+1. **Bronnen**: De data kan afkomstig zijn van verschillende bronnen, zoals databases, bestandssystemen, streaming data (zoals van sensoren of sociale media), en cloud services.
+
+2. **Bestemming**: De bestemming kan variëren van datawarehouses en databases tot cloud-opslag en big data verwerkingssystemen zoals Hadoop of Spark.
+
+3. **Methoden**: Data ingestion kan real-time of batch-gewijs zijn. Real-time (of streaming) data ingestion houdt in dat data continu en direct na het genereren wordt ingevoerd. Batchverwerking daarentegen houdt in dat data in grote, geplande hoeveelheden wordt ingevoerd.
+
+4. **Uitdagingen**: Het omvat het beheren van verschillende dataformaten, het waarborgen van de kwaliteit en consistentie van de data, en het efficiënt verwerken van grote volumes data.
+
+5. **Belangrijk voor analyse**: Na de ingestion wordt de data vaak getransformeerd, geïntegreerd, en geanalyseerd om waardevolle inzichten te verkrijgen.
+
+![Data ingestion](./assets/data_ingest.png)
+
+### Data processing
+
+Data processing is het proces van het verzamelen en manipuleren van ruwe data om nuttige informatie te verkrijgen. Het doel van data processing is om de kwaliteit van data te verbeteren en de verwerkingstijd te verminderen. Het eindreultaat is meestal een set van gestructureerde data.
+
+![Data processig](./assets/data_processing.png)
+
+### Extract, Transform, Load (ETL)
+
+Het verschil tussen "Extract, Transform, Load" (ETL) en "Extract, Load, Transform" (ELT) ligt in de volgorde en locatie waar de data transformatie plaatsvindt in het data verwerkingsproces. Beide zijn methoden voor het verplaatsen van data van één systeem naar een ander, maar ze benaderen het proces anders:
+
+- **ETL (Extract, Transform, Load)**:
+  - **Extract**: Data wordt eerst geëxtraheerd uit de bron.
+  - **Transform**: Vervolgens wordt deze data getransformeerd, wat betekent dat het wordt schoongemaakt, geaggregeerd, herstructueerd, enz., buiten de bestemmingsdatabase.
+  - **Load**: Tenslotte wordt de getransformeerde data geladen in het doelsysteem, zoals een datawarehouse.
+  - **Kenmerken**:Het vereist een tussentijds verwerkingsstadium en kan complexer zijn in het beheer.
+
+### Extract, Load, Transform (ELT)
+
+- **ELT (Extract, Load, Transform)**:
+  - **Extract**: Net als bij ETL wordt data eerst geëxtraheerd uit de bron.
+  - **Load**: De ruwe data wordt direct geladen in het doelsysteem, zoals een datawarehouse of datalake.
+  - **Transform**: De transformatie van de data vindt plaats binnen het doelsysteem, nadat het is geladen.
+  - **Kenmerken**: Het biedt flexibiliteit omdat de ruwe data beschikbaar is en kan worden getransformeerd naar behoefte.
+
+De data wordt enkel getransformeerd wanneer het nodig is voor analyse.
+
+EEN USECASE:
+
+```
+You have data about money from the US, Australia, and Canada. All three
+currencies are in dollars.
+
+In a classic DWH setup (with ETL) you would probable convert all data about
+money to a single currency, so you can easily add them together when making
+reports.
+
+But you can’t just add the dollars together and have a meaningful answer.
+Instead, to have a meaningful answer, you have to convert (transform) two of the
+three currencies to a common value. Then, and only then, can you add the values
+up in a meaningful manner. And even then, the truthfulness of the data is only
+relevant to the moment that data has been recalculated because exchange rates
+fluctuate on a daily/hourly basis.
+
+```
+
+### Datalake
+
+Een datalake is een gecentraliseerde opslagplaats die grote hoeveelheden ruwe data in zijn oorspronkelijke formaat kan opslaan totdat het nodig is. Het concept van een datalake is vooral populair in big data en analytics
+
+![Datalake](./assets/datalake.png)
+
+### Nog veel azure bla bla Slide 35 tot 55 nie echt relevant denk ik
 
 ## 4.7. Snowflake
 
