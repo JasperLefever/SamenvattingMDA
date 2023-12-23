@@ -1,5 +1,7 @@
 # Samenvatting (niet zo) Modern Data Architectures
 
+Jo gasten,
+
 Samenvatting van het vak (niet zo) Modern Data Architectures (2023-2024) aan de Hogeschool Gent.
 
 (Als ge een mac hebt veel plezier :) bereid u voor op een 'tof' advontuurtje)
