@@ -15,8 +15,7 @@
     - [Platform as a Service (PaaS)](#platform-as-a-service-paas)
     - [Software as a Service (SaaS)](#software-as-a-service-saas)
     - [Identify a service type based on a use case](#identify-a-service-type-based-on-a-use-case)
-    - [Describe the shared responsibility model](#describe-the-shared-responsibility-model)
-    - [Describe serverless computing](#describe-serverless-computing)
+    - [Shared responsibility model](#shared-responsibility-model)
   - [4.4. Cloud Databases](#44-cloud-databases)
   - [4.5. Snowflake](#45-snowflake)
 
@@ -94,15 +93,36 @@ Cloud diensten betaal je op basis van wat je effectief gebruikt. Dit levert volg
 
 ### Infrastructure as a Service (IaaS)
 
+- **IaaS**:
+  - pay-as-you-go model
+  - Geen aankoop van eigen hardware nodig
+  - koopt toegang tot servers, storage, netwerken, etc.
+  - Je bent zelf verantwoordelijk voor installatie en onderhoud van software je 'huurt' puur de fysieke infrastructuur
+
 ### Platform as a Service (PaaS)
+
+- **PaaS**:
+  - pay-as-you-go model
+  - voorzien van hardware en software tools
+  - ze voorzien een 'platform' waarop je je eigen applicaties kan bouwen
 
 ### Software as a Service (SaaS)
 
+- **SaaS**:
+  - pay-as-you-go model
+  - volledig afgewerkte applicaties
+  - je hoeft zelf geen hardware, software of infrastructuur te beheren
+  - je kan de applicatie gewoon gebruiken
+  - BV: Office 365, Google Apps, Salesforce, etc.
+  - Vaak met een abbonement
+
 ### Identify a service type based on a use case
 
-### Describe the shared responsibility model
+![Cloud service comparison](./assets/cloud_service_comparison.png)
 
-### Describe serverless computing
+### Shared responsibility model
+
+![Shared responsibility model](./assets/shared_responsibility_model.png)
 
 ## 4.4. Cloud Databases
 
