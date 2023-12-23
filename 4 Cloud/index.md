@@ -122,7 +122,7 @@ Cloud diensten betaal je op basis van wat je effectief gebruikt. Dit levert volg
 
 ### Shared responsibility model
 
-![Shared responsibility model](./assets/shared_responsibility_model.png)
+![Shared responsibility model](./assets/shared_responsibility_model.jpg)
 
 ## 4.4. Cloud Databases
 
