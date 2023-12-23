@@ -58,4 +58,4 @@
 
 Rare dingen die oef ma bon den oplossing staat [Hier](./3._sqlalchemy_exercise.py)
 
-Tis overal een mac connectiestring dus ge zult moeten aanpassen wss (kheb nie proberen runnen ma gwn de les gecopieerd)
+Tis overal een mac connectiestring dus ge zult moeten aanpassen wss (kheb nie proberen runnen ma gwn zelfde als in de les)
