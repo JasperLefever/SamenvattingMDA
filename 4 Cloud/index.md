@@ -278,17 +278,78 @@ Een datalake is een gecentraliseerde opslagplaats die grote hoeveelheden ruwe da
 
 ### Introduction
 
+- Snowflake is een cloud data platform dat een datawarehouse as a service aanbied
+- Gemaakt om grote hoeveelheden data te verwerken
+- Efficient data analyseren
+- Multi-cloud support
+  - Bied ondersteuning voor AWS, Azure en Google Cloud
+- Unieke architectuur
+  - Multi-cluster shared data architecture (het oplsplitsen van compute en storage)
+
 ### Multi-cluster shared data architecture
+
+- **Multi-cluster**
+  - meerdere compute clusters -> virtual warehouses
+  - kunnen parallel opereeren
+  - laat toe om meerdere workloads tegelijk uit te voeren
+  - elke virtual warehouse kan onafhankelijk een andere workload uitvoeren
+- **Shared data**
+  - data wordt appart opgeslagen van compute
+  - Opslag in cloud storage zoals AWS S3, Azure Blob Storage, Google Cloud Storage
+  - virtuele warehouses delzen dus dezelfde data
+    - geen data duplicatie
+  - data opgelsaan in columnar formaat met een metadata layer
+    - metadata layer managed en organiseert data efficient
 
 ### Data Architecture
 
+- **3** Lagen:
+  - **Database Storage Layer**
+    - beheert de data opgeslagen in cloud storage door shared-disk approach
+  - **Query Processing Layer**
+    - Query executie: Op de virtual warehouse
+    - Gebruikt de data opgeslagen in de storage layer
+  - **Cloud Services Layer**
+    - zorgt voor de communicatie tussen de andere 2 lagen
+    - authenticatie, beveiliging, metadata management, query optimalisatie, etc.
+    - `A cloud service is a stateless computing resource that operates across different availability zones and uses highly accessible and usable information. The cloud services layer provides a SQL client interface for data operations such as DDL and DML.`
+
 ### Virtual Warehouses
+
+- **Virtual warehouses**
+  - cluster Compute resources
+  - voorziet CPU, geheugen en opslag:
+    - SQL query processing -> SELECT
+    - DML operaties: INSERT, UPDATE, DELETE
 
 ### Query pruning
 
+- **Query pruning**
+  - Snowflake kan queries optimaliseren door onnodige data te verwijderen -> dit aan de hand van micro-partitons
+  - Verminderd de hoeveelheid data die moet worden gescand
+
 ### Micro-Partitioning
 
+- **Micro-partitioning**
+
+  - Alle data in snowflake tables is automatisch opgedeeld in micro-partities
+  - 50-500MB groot
+  - Groepeert rijen die gemapt worden naar eigen micro-partities, in columnar format
+  - vage shit: `This size and structure allows for extremely granular pruning of very large tables, which can be comprised of millions, or even hundreds of millions, of micro-partitions`
+
+- **Voordelen**
+  - micro-partities worden automatisch afgeleid, moeten nie door users aangemaakt en onderhouden worden
+  - klein in groote -> efficient voor querries
+  - Het feit dat micro-partitions kunnen overlappen in hun bereik van waarden betekent dat één specifieke waarde in meerdere micro-partities kan voorkomen. Dit ontwerp is anders dan in traditionele partitie-systemen, waar een unieke waarde slechts in één partitie voorkomt.
+  - kolomen worden gecompressed in micro partities
+  - zorgt voor efficient scannen van individuele kolomen
+
 ### Data clustering
+
+- **Data clustering**:
+  - Data wordt gesorteerd in natuurlijke dimenties zoals datum, locatie, ... . Omdat data die niet gesorteerd is veel minder performant doorzoekbaar is vooral op zeer grote tabellen.
+  - In snowflake als er data wordt in een tabel gestoken wordt hier clustering metadata uit afgeleid voor elke micro-partitie die gecreerd wordt in het proces.
+  - Snowflake gebruikt deze metadata om onnodige scans te vermijden.
 
 ### Semi-structured data
 
