@@ -14,6 +14,7 @@
   - [3.1.3. The origin of big data](#313-the-origin-of-big-data)
     - [IoT](#iot)
   - [3.1.4. The 4 V's of big data](#314-the-4-vs-of-big-data)
+    - [Big data challenges](#big-data-challenges)
   - [3.1.5. Some other V's](#315-some-other-vs)
   - [3.1.6. Bottlenecks](#316-bottlenecks)
   - [3.1.7. Usages](#317-usages)
@@ -85,6 +86,32 @@ Door internet, sociale media, IoT, ... is er een grote hoeveelheid random data b
 Internet of Things -> alles is verbonden met het internet. -> sensors, camera's, ... -> extra data -> BIG DATA
 
 ## 3.1.4. The 4 V's of big data
+
+- **Volume**
+  - De hoeveelheid data -> data in 'rust' (data at rest)
+- **Variety**
+  - De verschillende types en bronnen van data
+- **Velocity**
+  - De snelheid waarmee date komt en gaat -> data in 'beweging' (data in motion)
+- **Veracity**
+  - De betrouwbaarheid van de data -> data in 'twijfel' (data in doubt)
+  - niet alle data is even "correct"
+  - qualiteit, accuraatheid, integriteit en credibiliteit van de data
+  - "Veracity refers to the quality, accuracy, integrity and credibility of data. Gathered data could have missing pieces, might be inaccurate or might not be able to provide real, valuable insight. Veracity, overall, refers to the level of trust there is in the collected data."
+
+### Big data challenges
+
+- **Volume**
+  - BIG data -> horizontaalbare schaalbaarheid / gedistribueerde systemen
+  - > "Unlike traditional databases that scale vertically (upgrading a single server with more memory, CPU, etc.), horizontal scaling involves adding more machines to a network, distributing the load."
+- **Variety**
+  - veel verschillende formaten aan data -> schemaless databases
+  - structured(sqldatabase), semi-structured (json files), and unstructured data(social media posts)
+- **Velocity**
+  - > "Traditional databases that emphasize ACID properties (Atomicity, Consistency, Isolation, Durability) may not cope well with the high velocity of data. Therefore, NoACID databases, which prioritize performance and scalability over strict consistency, are often used in Big Data scenarios."
+- **Veracity**
+  - Slechte data -> Data veracity handling
+  - > "Data veracity handling involves ensuring the accuracy and reliability of data through various means like data cleansing, validation, and verification. Techniques in data quality management and analytics are employed to detect and correct inaccuracies in data."
 
 ## 3.1.5. Some other V's
 
