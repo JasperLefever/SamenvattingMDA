@@ -9,7 +9,10 @@
     - [What do we usally have? in practice](#what-do-we-usally-have-in-practice)
     - [How does Big Data fit in these pictures?](#how-does-big-data-fit-in-these-pictures)
   - [3.1.2. What are big data?](#312-what-are-big-data)
+    - [Big Data: Just the next hype or reality?](#big-data-just-the-next-hype-or-reality)
+    - [Definitie van johaneke](#definitie-van-johaneke)
   - [3.1.3. The origin of big data](#313-the-origin-of-big-data)
+    - [IoT](#iot)
   - [3.1.4. The 4 V's of big data](#314-the-4-vs-of-big-data)
   - [3.1.5. Some other V's](#315-some-other-vs)
   - [3.1.6. Bottlenecks](#316-bottlenecks)
@@ -55,7 +58,31 @@ Croissant? -> Traditionele systemen zijn niet in staat om de grote hoeveelheden 
 
 ## 3.1.2. What are big data?
 
+- Veel verschillende definities -> CONFUSION 🤔
+
+### Big Data: Just the next hype or reality?
+
+-> Was altijd veel besproken
+
+### Definitie van johaneke
+
+> “Data that is not (consciously) entered by a user but
+> that arise, often spontaneously, as a by-product of
+> other processes and that are (usually) used for purposes
+> for which they were not originally intended”
+
 ## 3.1.3. The origin of big data
+
+Door internet, sociale media, IoT, ... is er een grote hoeveelheid random data beschikbaar. Met verschillende karakteristieken. -> brengt uitdagingen met zich mee.
+
+> "Der blijft data bijkomen dus moet er altijd vernieuwd worden?
+> de big data van vandaag is niet de big data van morgen"
+>
+> door Lucca
+
+### IoT
+
+Internet of Things -> alles is verbonden met het internet. -> sensors, camera's, ... -> extra data -> BIG DATA
 
 ## 3.1.4. The 4 V's of big data
 
