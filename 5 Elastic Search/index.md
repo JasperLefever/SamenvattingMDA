@@ -11,6 +11,9 @@
 
 ## 5.1. Wat is Elasticsearch?
 
+- **Elastic Search**:
+  -  
+
 ## 5.2. Key components of Elasticsearch
 
 ## 5.3. Often as part of a pipeline
