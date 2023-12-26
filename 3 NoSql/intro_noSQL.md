@@ -70,4 +70,10 @@ Elke NoSQL database heeft zijn eigen query taal en unieke aspecten.
 
 ## 3.2.6. Independance mismatch
 
+De mismatch tussen de data representatie in de applicatie en de data representatie in de database.
 
+Bij een relationele database moet de data in de applicatie omgezet worden naar een relationeel model. (tabellen met relaties)
+
+Bij een NoSQL database kan de data in de applicatie rechtstreeks opgeslagen worden in de database. (geen omzetting nodig)
+
+SQL databases zorgden voor een integratie mechanisme tussen de applicatie en de database. Omdat meerdere applicaties dan dezelfde database kunnen gebruiken. Tegenwoordig zit hier vaak een API service tussen (web service).
