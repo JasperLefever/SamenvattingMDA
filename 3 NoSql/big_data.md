@@ -10,7 +10,7 @@
     - [How does Big Data fit in these pictures?](#how-does-big-data-fit-in-these-pictures)
   - [3.1.2. What are big data?](#312-what-are-big-data)
     - [Big Data: Just the next hype or reality?](#big-data-just-the-next-hype-or-reality)
-    - [Definitie van johaneke](#definitie-van-johaneke)
+    - [Definitie van Johan](#definitie-van-johan)
   - [3.1.3. The origin of big data](#313-the-origin-of-big-data)
     - [IoT](#iot)
   - [3.1.4. The 4 V's of big data](#314-the-4-vs-of-big-data)
@@ -71,7 +71,7 @@ Croissant? -> Traditionele systemen zijn niet in staat om de grote hoeveelheden 
 
 -> Was altijd veel besproken
 
-### Definitie van johaneke
+### Definitie van Johan
 
 > “Data that is not (consciously) entered by a user but
 > that arise, often spontaneously, as a by-product of
@@ -183,4 +183,11 @@ Handelen van slechte en onbekende kwaltiteit data is een uitdaging
 
 ## 3.1.6. Bottlenecks
 
+![flesnek](./assets/flesnek.png)
+
 ## 3.1.7. Usages
+
+- Aantal bezoekers op gentse feesten tellen
+- gezondheidszorg
+  - Alle data van de apparaten in een ziekenhuis
+- ...
