@@ -15,7 +15,13 @@
     - [IoT](#iot)
   - [3.1.4. The 4 V's of big data](#314-the-4-vs-of-big-data)
     - [Big data challenges](#big-data-challenges)
-  - [3.1.5. Some other V's](#315-some-other-vs)
+    - [Big Data](#big-data)
+    - [Varied Data](#varied-data)
+    - [Fast Data](#fast-data)
+    - [Voluminous, fast and varied data](#voluminous-fast-and-varied-data)
+    - [Bad Data (bad veracity)](#bad-data-bad-veracity)
+    - [Example inconsistent data](#example-inconsistent-data)
+  - [3.1.5. Some other V's (virgin oil)](#315-some-other-vs-virgin-oil)
   - [3.1.6. Bottlenecks](#316-bottlenecks)
   - [3.1.7. Usages](#317-usages)
 
@@ -113,7 +119,67 @@ Internet of Things -> alles is verbonden met het internet. -> sensors, camera's,
   - Slechte data -> Data veracity handling
   - > "Data veracity handling involves ensuring the accuracy and reliability of data through various means like data cleansing, validation, and verification. Techniques in data quality management and analytics are employed to detect and correct inaccuracies in data."
 
-## 3.1.5. Some other V's
+### Big Data
+
+- SQL databases hebben alsniog de voorkeer voor meeste data gerelateerde applicaties
+- Automatiseerde en snelle data generatie en real-time data processing
+  - Niewe technologieën
+    - NoSQL databases
+    - Big data analytics me Python, R, ...
+
+### Varied Data
+
+Bla bla
+
+### Fast Data
+
+IoT metingen -> veel data
+
+Zoals in vliegtuig alle sensor data die moet opgeslaan worden
+
+### Voluminous, fast and varied data
+
+Social media -> veel data elke seconde
+
+### Bad Data (bad veracity)
+
+- niet precies
+- vage data
+- onzekere data
+- incomplete data
+- inconsistent data
+
+De grote hoeveelheden data die snel verwerkt moeten worden is kans op slechte data groot(faalende sensoren, ...)
+
+Handelen van slechte en onbekende kwaltiteit data is een uitdaging
+
+-> deze date is ook BIG DATA genoemd
+
+### Example inconsistent data
+
+> In the first COVID wave in
+> Belgium, the laboratories
+> detected an estimated one-
+> thirtieth of the actual corona
+> infections, in the second wave
+> an estimated one-third. This
+> gives the wrong impression
+> that the second wave was
+> much worse than the first in
+> terms of number of infections.
+
+## 3.1.5. Some other V's (virgin oil)
+
+- **Virality**
+  - Hoelang blijft de data relevant
+  - Hoelang houden we de date
+- **Viscosity**
+  - Is er voldoende data om een goede analyse te maken
+- **Visualization**
+  - Kunnen de resultaten van de analyse goed gepresenteerd worden
+- **Value**
+  - Wat is de waarde van de data
+  - > "Data the new gold"
 
 ## 3.1.6. Bottlenecks
 
