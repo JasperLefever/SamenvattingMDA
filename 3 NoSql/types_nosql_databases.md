@@ -13,6 +13,13 @@
     - [SQL After ALL](#sql-after-all)
   - [3.3.3. Column Oriented](#333-column-oriented)
   - [3.3.4. Graph Databases](#334-graph-databases)
+    - [What is a graph?](#what-is-a-graph)
+    - [What is a graph database?](#what-is-a-graph-database)
+    - [Worked example - or How do differrent database solutions differ?](#worked-example---or-how-do-differrent-database-solutions-differ)
+      - [Relational database:](#relational-database)
+      - [Document database:](#document-database)
+      - [Graph database:](#graph-database)
+    - [Should I use a graph database?](#should-i-use-a-graph-database)
 
 ## 3.3.1. Key-Value Stores
 
@@ -257,3 +264,161 @@ Nadelen:
 - Voorbeelden: Cassandra, Google BigTable, HBase, Parquet, ...
 
 ## 3.3.4. Graph Databases
+
+Een hoop interesse in graph databases.
+
+### What is a graph?
+
+Een Graph database is een database die data opslaat in de vorm van een gerichte graaf.
+
+Een graaf is een collectie van nodes die met elkaar verbonden zijn door bogen. Deze bogen repsenteren de connecties tussen de nodes.
+
+Een directe graaf is een graaf waarbij de bogen een richting speifieke richting hebben.
+
+Familie stamboom, Metro kaart -> grafen
+
+Het internet is ook 1 grote graaf. servers en computers zijn de nodes en de links tussen de servers zijn de bogen.
+
+### What is a graph database?
+
+Graph-databases bieden een unieke en efficiënte manier om complexe gegevensrelaties te hanteren, wat verschilt van traditionele databasemodellen. Hier is een uiteenzetting van hun belangrijkste kenmerken:
+
+1.  **Knopen en Randen als Eersterangs Entiteiten**
+
+- **Knopen**: Vertegenwoordigen de entiteiten in uw database, zoals mensen, plaatsen of voorwerpen.
+- **Randen**: Definiëren de relaties tussen knopen, zoals "vriend van," "gelegen in," of "bezit."
+
+2.  **Natuurlijke Weergave van Gegevens**
+
+- Nabootsen van interacties en relaties in de echte wereld op een intuïtievere manier.
+- Maakt een directere afbeelding van complexe, onderling verbonden gegevens mogelijk.
+
+3.  **Schema-Loze Natuur**
+
+- Biedt flexibiliteit vergelijkbaar met Document- of Sleutel/Waardeopslag databases.
+- U kunt de structuur van uw gegevens naar wens definiëren of wijzigen, zonder strikte schema-beperkingen.
+
+4.  **Ondersteuning voor Relaties**
+
+- Ondanks het schema-loze karakter, beheren grafiekdatabases relaties op een manier vergelijkbaar met Relationele Databases.
+- Ze begrijpen inherent de verbindingen tussen entiteiten zonder de noodzaak voor koppelingstabellen of geneste documen
+
+5.  **Flexibiliteit in Gegevensmodellering**
+
+- Biedt meer vrijheid bij het definiëren van gegevensmodellen, wat leidt tot snellere projectiteraties.
+- Aanpasbaar aan veranderende vereisten zonder uitgebreide databaseherontwerp.
+
+6.  **Elegante Oplossing voor Complexe Relaties**
+
+- Vermijdt de complexiteit van koppelingstabellen of geneste documenten die nodig zijn in andere databasesystemen.
+- Biedt een eenvoudige benadering om ingewikkelde gegevensrelaties in kaart te brengen.
+
+7. **Toepassing van Grafentheorie**
+
+- Maakt efficiënt gebruik van grafentheorieconcepten voor gegevensanalyse.
+- Nuttig voor het ontdekken van inzichten zoals kortste paden tussen knopen of het identificeren van verschillende groepen binnen de gegevens.
+
+8.  **Ontdekking van Verborgen Verbindingen**
+
+- Vergemakkelijkt de identificatie van patronen en relaties die niet direct duidelijk zijn.
+- Bijzonder krachtig in scenario's zoals sociale netwerkanalyse, fraudeopsporing of aanbevelingssystemen.
+
+Samengevat excelleren grafiekdatabases in scenario's waar relaties en verbindingen sleutelaspecten zijn van de gegevens. Ze bieden een flexibele, intuïtieve en efficiënte manier om complexe netwerken van gegevens te vertegenwoordigen en te analyseren, waardoor diepere inzichten en een natuurlijkere gegevensmodellering mogelijk zijn.
+
+### Worked example - or How do differrent database solutions differ?
+
+- Simpel social media voorbeeld
+
+Uitgewerkt in:
+
+- Relational database
+- Document database
+- Graph database
+
+Overal 1 vraag proberen te beantwoorden: "All of the Friends of any User who has Liked one of my Posts, in alphabetical order of username"
+
+#### Relational database:
+
+![relational social media](./assets/relational.png)
+
+Nodige querry:
+
+```sql
+select l.user_id,u.username
+from posts p join likes l on p.post_id = l.post_id -- likes of my posts
+join friends f on l.user_id = f.user_id  -- friends of users who liked my posts
+join users u on f.user_id = u.user_id  -- usernames of those friends
+where p.author = 10  -- my posts
+order by username desc;
+```
+
+Zoals je kan zien is dit een vrij complexe query. Het werkt maar is alles behalve efficient.
+
+#### Document database:
+
+```json
+Users
+{
+  "user_id": "u1",
+  "username": "grahamcox",
+  "friends": {
+    "u2": "2017-04-25T06:41:11Z",
+    "u3": "2017-04-25T06:41:11Z"
+  }
+}
+Posts
+{
+  "post_id": "p1",
+  "author": "u1",
+  "title": "My first post",
+  "content": "This is my first post",
+  "created": "2017-04-25T06:41:11Z",
+  "likes": [ "u2" ]
+}
+```
+
+Hier zijn er maar 2 collecties nodig. 1 voor de users en 1 voor de posts.
+
+de links tussen user en user en van user naar post zijn moeilijker te beheren.
+
+Meeste document databases hebben geen support voor relationele integriteit, deze cross-links moeten dus door de applicatie worden onderhouden.
+
+Er zijn hier meerdere queries nodig om de data op te halen.
+
+1. Find all of my posts, which will include the IDs of all of the users who have liked them.
+
+2. Find all of the users who liked any of my posts, which will include the IDs of all of the friends of those users
+
+3. Find all of the usernames that will actually solve our query
+
+Het feit dat we hier meerdere querries moeten doen is niet zo fijn.
+
+#### Graph database:
+
+![graph social media](./assets/graph.png)
+
+2 soorten nodes en 3 soorten bogen.
+
+Elke boog kan ook mogelijke data bevatten zoals de datum van de vriendschap of de datum van de like.
+
+Querry:
+Cypher query language -> veel leesbaarder dan relationeel
+
+```
+MATCH (:User {id:{author}}) <-[:AUTHOR]- (:Post) <-[:LIKES]- (:User) <-
+[:FRIENDS]- (u:User) RETURN (u)
+```
+
+Voordeel van graph is dat je nooit moet zeggen hoe die relaties moet verbinden. Je de databank zoek zelf de links op.
+
+### Should I use a graph database?
+
+- Als je veel relaties hebt is een graph database een goeie keuze.
+- Veel many-to-many relaties -> graph beter dan relationeel
+
+> Graph Databases are generally much more flexible in the way that they allow you to store data, allowing
+> for much more fluidity of the data present in each location. If your data needs are such that the schema
+> is not absolutely rigid then a Graph Database may be a better fit, even if a Relational Database fits your
+> needs otherwise.
+
+Indien je vanplan bent veel complexe analyses of potentieel dure querries uit te voeren is een graph database ook een goeie keuze.
