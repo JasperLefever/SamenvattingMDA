@@ -171,4 +171,83 @@ Whatever dit moet zijn?
 
 ## 3.3.3. Column Oriented
 
+VOORBEELD:
+
+If there are null fields in the data, the representation in a column-oriented database would reflect these nulls in the respective columns. Let's modify the previous example to include some null values:
+
+**Row-Oriented Database with Null Values:**
+
+| Book ID | Title                   | Author              | Published Year | Genre     |
+| ------- | ----------------------- | ------------------- | -------------- | --------- |
+| 1       | The Great Gatsby        | F. Scott Fitzgerald | 1925           | Novel     |
+| 2       | 1984                    | George Orwell       | 1949           | Dystopian |
+| 3       | To Kill a Mockingbird   | Harper Lee          | 1960           | Novel     |
+| 4       | A Brief History of Time | Stephen Hawking     | (null)         | Science   |
+| 5       | (null)                  | Agatha Christie     | 1934           | Mystery   |
+
+**Column-Oriented Database with Null Values:**
+
+- **Column 1 - Book ID:**
+
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+
+- **Column 2 - Title:**
+
+  - The Great Gatsby
+  - 1984
+  - To Kill a Mockingbird
+  - A Brief History of Time
+  - (null)
+
+- **Column 3 - Author:**
+
+  - F. Scott Fitzgerald
+  - George Orwell
+  - Harper Lee
+  - Stephen Hawking
+  - Agatha Christie
+
+- **Column 4 - Published Year:**
+
+  - 1925
+  - 1949
+  - 1960
+  - (null)
+  - 1934
+
+- **Column 5 - Genre:**
+  - Novel
+  - Dystopian
+  - Novel
+  - Science
+  - Mystery
+
+In this example:
+
+- The "Published Year" for the book "A Brief History of Time" is null.
+- The "Title" for one of Agatha Christie's books is unknown or not provided (represented as null).
+
+In a column-oriented database, these null values would be handled according to the strategies mentioned earlier, like sparse storage, bitmap indexing, or run-length encoding. For example, the database might store the "Published Year" column using sparse storage or a bitmap index, efficiently representing the absence of a value for "A Brief History of Time". This approach allows for more efficient storage and querying, especially in scenarios where null values are common.
+
+Handig als je vaak queries doet over grote hoeveelheiden gelijke data items.
+
+Vak in combinatie met in-memory databases.
+
+Voordelen:
+
+- Agrergatie queries zijn snel -> group by
+- null waarden zijn niet opgeslaan -> minder opslag
+- SELECT met filtering kan direct worden uitgevoerd
+
+Nadelen:
+
+- JOINs zijn traag
+- SELECT van 1 entity is traag
+
+- Voorbeelden: Cassandra, Google BigTable, HBase, Parquet, ...
+
 ## 3.3.4. Graph Databases
