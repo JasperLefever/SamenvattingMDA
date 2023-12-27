@@ -187,44 +187,50 @@ If there are null fields in the data, the representation in a column-oriented da
 
 **Column-Oriented Database with Null Values:**
 
-- **Column 1 - Book ID:**
+**Column 1 - Book ID:**
+| Book ID |
+|---------|
+| 1 |
+| 2 |
+| 3 |
+| 4 |
+| 5 |
 
-  - 1
-  - 2
-  - 3
-  - 4
-  - 5
+**Column 2 - Title:**
+| Title |
+|------------------------|
+| The Great Gatsby |
+| 1984 |
+| To Kill a Mockingbird |
+| A Brief History of Time|
+| (null) |
 
-- **Column 2 - Title:**
+**Column 3 - Author:**
+| Author |
+|---------------------|
+| F. Scott Fitzgerald |
+| George Orwell |
+| Harper Lee |
+| Stephen Hawking |
+| Agatha Christie |
 
-  - The Great Gatsby
-  - 1984
-  - To Kill a Mockingbird
-  - A Brief History of Time
-  - (null)
+**Column 4 - Published Year:**
+| Published Year |
+|----------------|
+| 1925 |
+| 1949 |
+| 1960 |
+| (null) |
+| 1934 |
 
-- **Column 3 - Author:**
-
-  - F. Scott Fitzgerald
-  - George Orwell
-  - Harper Lee
-  - Stephen Hawking
-  - Agatha Christie
-
-- **Column 4 - Published Year:**
-
-  - 1925
-  - 1949
-  - 1960
-  - (null)
-  - 1934
-
-- **Column 5 - Genre:**
-  - Novel
-  - Dystopian
-  - Novel
-  - Science
-  - Mystery
+**Column 5 - Genre:**
+| Genre |
+|----------|
+| Novel |
+| Dystopian|
+| Novel |
+| Science |
+| Mystery |
 
 In this example:
 
