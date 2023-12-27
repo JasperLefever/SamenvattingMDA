@@ -33,18 +33,34 @@ Als je de hashes willen versprijden over 3 servers:
 ### NoSQL clusters
 
 - Clustering:
+
   - groep servers samenwerken als 1 systeem
-    - Request coordination
-      - Alle nodes hebben zelfde functionaliteit
-      - geen MASTER node -> geen single point of failure
-      - Alle nodes kunnen dus de coordinator zijn
-      - Moet protocol zijn dat nodes weten van elkaar en voor faal detectie
-    - [Consistent hashing](https://www.youtube.com/watch?v=UF9Iqmg94tk) -> chinese goat
-      - ss
-    - Replication and redundancy
-    - Eventual consistency
-    - Stabilizaton
-    - Integrity contrains and querying
+
+- Request coordination
+
+  - Alle nodes hebben zelfde functionaliteit
+  - geen MASTER node -> geen single point of failure
+  - Alle nodes kunnen dus de coordinator zijn
+  - Moet protocol zijn dat nodes weten van elkaar en voor faal detectie
+
+- [Consistent hashing](https://www.youtube.com/watch?v=UF9Iqmg94tk) -> chinese goat
+
+  - Consystent hashing wordt gebruikt om de data te verdelen over de nodes zodat er indien het aantal nodes veranderd de data niet te veel moet verplaatst worden.
+  - ring-topologie -> representatie van alle hashes in een ring vorm
+  - Elke key wordt gehashed en op de ring geplaatst.
+  - Vervolgens wordt deze aan de eerste node toegekend die je tegenkomt als je de ring rond gaat in de klokzin.
+  - ![consistent hashing](./assets/consistent_hashing.png.png)
+  - Bij een goeie hashfunctie zal de verdeling per server ongeveer 1/n zijn.
+  - Meeste keys zullen dus ook niet verplaatst moeten worden als er een node bijkomt of wegvalt.
+  - ![consistent hashing2](./assets/consistent_hashing2.png)
+
+- Replication and redundancy
+
+- Eventual consistency
+
+- Stabilizaton
+
+- Integrity contrains and querying
 
 ## 3.3.2. Tupel and Document Stores
 
