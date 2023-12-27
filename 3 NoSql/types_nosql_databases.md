@@ -56,11 +56,39 @@ Als je de hashes willen versprijden over 3 servers:
 
 - Replication and redundancy
 
+  - Probleem consistent hashing: 2 nodes dicht bij elkaar -> 1 van de nodes zal veel meer keys hebben dan de andere.
+  - Daarom worden nodes op meerdere plaatsen op de ring geplaatst. (replicas) -> dezelfde node op meerdere plekken voor betere spreiding.
+  - != redundancy -> het is nog steeds dezelfde node maar op een andere plaats. Zelfde data dus. -> virtual node
+  - Het is ook mogelijk een volledig redundante node te hebben. -> backup node
+
 - Eventual consistency
+
+  - Membership protocol kan niet garanderen dat elke node op de hoogte is van elke andere node.
+  - Staat netwerk is niet consistent op elk moment. Maar het moet eventueel in een consistente state komen.
+  - BASE principle <=> ACID:
+    - Basicly Available
+    - Soft state -> systeem veranderd over tijd zelfs als er geen input is
+    - Eventual consistency
+  - CAP theorem -> distributed system kan niet alle 3 de eigenschappen hebben op zelfde moment:
+    - Consistency -> alle nodes zien zelfde data op zelfde moment
+    - Availability -> elke request krijgt een response
+    - Partition tolerance -> systeem blijft werken als er een node wegvalt of bijkomt
+  - Meestal offeren nosql databases consistency op en streven voor eventueel consistent te zijn.
+  - Consistency and availability -> voorbeeld slide 35
+
+![cap](./assets/cap.png)
 
 - Stabilizaton
 
+  - De operatie die zorgt dat bij het toevoegen / verwijderen van een node de data op de juiste node komt te staan.
+  - Consistent hashing schema? -> minimale data verplaatsing
+
 - Integrity contrains and querying
+  - Niet veel mogelijkheden om data te queryen -> bv put set
+  - Geen relaties of schema
+  - geen structuur
+  - databank weet niks over de data
+  - primary key access -> snel
 
 ## 3.3.2. Tupel and Document Stores
 
