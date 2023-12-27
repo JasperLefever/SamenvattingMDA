@@ -1,5 +1,19 @@
 # 3.3. Types of NoSQL databases
 
+- [3.3. Types of NoSQL databases](#33-types-of-nosql-databases)
+  - [3.3.1. Key-Value Stores](#331-key-value-stores)
+    - [Caching oplossing:](#caching-oplossing)
+    - [NoSQL clusters](#nosql-clusters)
+  - [3.3.2. Tupel and Document Stores](#332-tupel-and-document-stores)
+    - [Tupel Store](#tupel-store)
+    - [Document Store](#document-store)
+    - [Items with keys](#items-with-keys)
+    - [Filters and Queries](#filters-and-queries)
+    - [MongoDB](#mongodb)
+    - [SQL After ALL](#sql-after-all)
+  - [3.3.3. Column Oriented](#333-column-oriented)
+  - [3.3.4. Graph Databases](#334-graph-databases)
+
 ## 3.3.1. Key-Value Stores
 
 - Data opgeslaan als een key-value pair.
@@ -91,6 +105,69 @@ Als je de hashes willen versprijden over 3 servers:
   - primary key access -> snel
 
 ## 3.3.2. Tupel and Document Stores
+
+### Tupel Store
+
+Zeer gelijkaardig aan key-value store maar hier wordt de unieke key opgeslaan en de bijhorende vector van waarden. (een referentie naar de data).
+
+Schema loos -> geen structuur
+
+Organiseren van gelijkaardige data -> groeperen met collecties
+
+> Person:marc -> ("Marc", "McLast Name", 25, "Germany")
+> Person:harry -> ("Harry", "Smith", 29, "Belgium")
+> Painting:lamgods →(“Lam Gods”,”Van Eyck”,”Gent”)
+
+### Document Store
+
+Slaan een collectie van gelabelde attributen op. (JSON, XML, ...)
+Semi-structured data
+
+Tegenwoordig vaak JSON
+
+![blablibla](./assets/docustore.png)
+
+### Items with keys
+
+Document stores laten toe p te slaan in een collectie van gelabelde attributen maar moet een primaire key gespecifieerd worden.
+
+Deze key wordt gebruikt als partition key om de data te verdelen en te weten waar de data opgeslaan is.
+
+### Filters and Queries
+
+Primairy key access -> snel
+
+Maar meeste document stores laten ook toe om te filteren op andere attributen.
+
+Kunt delen van een document ophalen en updaten.
+
+Document databases zijn de meest gebruikte NoSQL databases. -> mongoDB en couchDB
+
+### MongoDB
+
+Meest bekende document store.
+
+Sterk consistent by default -> als je data opslaat is het direct beschikbaar.
+
+MongoDb is single master -> 1 node is verantwoordelijk voor het schrijven van data. (primary node)
+
+Kunt kiezen voor secondairy node te lezen maar dan -> eventual consistency
+
+### SQL After ALL
+
+Filtering en queries zijn redelijk ingewikkeld in NoSQL databases.
+
+Daarom gebruiken meeste NoSQL databases een SQL interface om queries te doen.
+
+Whatever dit moet zijn?
+
+> Many RDBMS vendors start implementing NoSQL by:
+>
+> Focusing on horizontal scalability and distributed querying.
+> Dropping schema requirements.
+> Support for nested data types or allowing to store JSON directly in tables.
+> Support for GROUP BY like operations.
+> Support for special data types, such as geospatial data.
 
 ## 3.3.3. Column Oriented
 
