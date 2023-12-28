@@ -20,11 +20,12 @@
       - [JDBC (Java Database Connectivity)](#jdbc-java-database-connectivity)
       - [SQLJ](#sqlj)
     - [Language-integrated Querying](#language-integrated-querying)
-  - [1.3 Object Persistence and ORMs](#13-object-persistence-and-orms)
+  - [1.3 Object Persistence and ORMs -\> Slide 50 trekt uw plan xoxo](#13-object-persistence-and-orms---slide-50-trekt-uw-plan-xoxo)
     - [Object Persistence with EJB](#object-persistence-with-ejb)
     - [Object Persistence with JPA](#object-persistence-with-jpa)
     - [Object Persistence with JDO](#object-persistence-with-jdo)
     - [Other Object Persistence Technologies (ActiveRecord, Entity Framework, SQLAlchemy)](#other-object-persistence-technologies-activerecord-entity-framework-sqlalchemy)
+  - [Summary](#summary)
   - [1.4 Exercise in Python](#14-exercise-in-python)
 
 ## 1.1 Database System Architectures
@@ -234,7 +235,7 @@ String sql = create.select(BOOK.TITLE, AUTHOR.NAME)
 .getSQL();
 ```
 
-## 1.3 Object Persistence and ORMs
+## 1.3 Object Persistence and ORMs -> Slide 50 trekt uw plan xoxo
 
 ### Object Persistence with EJB
 
@@ -243,6 +244,26 @@ String sql = create.select(BOOK.TITLE, AUTHOR.NAME)
 ### Object Persistence with JDO
 
 ### Other Object Persistence Technologies (ActiveRecord, Entity Framework, SQLAlchemy)
+
+Ruby on Rails -> ActiveRecord
+
+.NET -> Entity Framework
+
+Python -> SQLAlchemy
+
+## Summary
+
+| Technology                                | Embedded or Call-level            | Early or late binding               | Objects in host programming language represent                                                                                                         | Data sources                                                                          | Other                                                                                  |
+| ----------------------------------------- | --------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| JDBC                                      | Call-level                        | Late binding                        | A resultset with rows of fields                                                                                                                        | Mainly relational databases, though other structured tabular sources possible as well | Java-based technology, portable, still in wide use                                     |
+| SQLJ                                      | Embedded                          | Early binding                       | A resultset with rows of fields                                                                                                                        | Relational databases supporting SQL                                                   | Java-based technology, uses a precompiler, mostly outdated                             |
+| Language-integrated Query Technologies    | Uses an underlying call-level API | Uses an underlying late-binding API | A resultset with rows of fields, sometimes converted to a plain collection of objects                                                                  | Relational databases supporting SQL or other data sources                             | Examples: jOOQ and LINQ, works together with another API to convert expressions to SQL |
+| OLE DB and ADO                            | Call-level                        | Late binding                        | A resultset with rows of fields                                                                                                                        | Mainly relational databases, though other structured tabular sources possible as well | Microsoft-based technology, backwards compatible with ODBC, mostly outdated            |
+| ADO.NET                                   | Call-level                        | Late binding                        | A resultset with rows of fields provided by a DataReader, or a DataSet: a collection of tables, rows, and fields, retrieved and stored by DataAdapters | Various data sources                                                                  | Microsoft-based technology, backwards compatible with ODBC and OLE DB                  |
+| Enterprise JavaBeans (EJB 2.0)            | Uses an underlying call-level API | Uses an underlying late-binding API | Plain Java entity Beans as the main representation                                                                                                     | Mainly relational databases, though other structured tabular sources possible as well | Java-based technology, works together with another API to convert expressions to SQL   |
+| Java Persistence API (JPA in EJB 3.0)     | Uses an underlying call-level API | Uses an underlying late-binding API | Plain Java objects as the main representation                                                                                                          | Mainly relational databases, though other structured tabular sources possible as well | Java-based technology, works together with another API to convert expressions to SQL   |
+| Java Database Objects (JDO)               | Uses an underlying call-level API | Uses an underlying late-binding API | Plain Java objects as the main representation                                                                                                          | Various data sources                                                                  | Java-based technology                                                                  |
+| ORM APIs (ActiveRecord, Entity Framework) | Uses an underlying call-level API | Uses an underlying late-binding API | Plain objects defined in the programming language as the main representation                                                                           | Relational databases                                                                  | Various implementations available for each programming language                        |
 
 ## 1.4 Exercise in Python
 
