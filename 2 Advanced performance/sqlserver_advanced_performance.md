@@ -360,6 +360,45 @@ CREATE TABLE
 [ ;
 ```
 
+-> CHATGPT is toch duidelijker whi
+
+Creating a table within a specific filegroup in SQL Server involves specifying the filegroup during the table creation process. Here's a basic example of how to do this:
+
+1. **First, ensure the filegroup exists in your database**. You can create a new filegroup by using the `ALTER DATABASE` statement. For example:
+
+   ```sql
+   ALTER DATABASE YourDatabaseName
+   ADD FILEGROUP YourFileGroupName;
+   ```
+
+   And then add at least one file to the filegroup:
+
+   ```sql
+   ALTER DATABASE YourDatabaseName
+   ADD FILE (
+       NAME = 'YourFileName',
+       FILENAME = 'path_to_your_file.ndf' -- Specify the path
+   ) TO FILEGROUP YourFileGroupName;
+   ```
+
+2. **Create a table on the specified filegroup**. When creating a table, you can specify the filegroup for the table or its indexes using the `ON` clause. Here's an example:
+
+   ```sql
+   CREATE TABLE YourTableName
+   (
+       Column1 DataType,
+       Column2 DataType,
+       ...
+   )
+   ON YourFileGroupName;
+   ```
+
+   In this script, `YourTableName` is the name of the table you're creating, `Column1`, `Column2`, etc., are the columns of your table, and `DataType` represents the data type of each column.
+
+Remember to replace `YourDatabaseName`, `YourFileGroupName`, `YourFileName`, `YourTableName`, and the column definitions with the actual names and specifications relevant to your database.
+
+This approach is used typically for large databases to distribute the data across multiple disks for performance optimization. Filegroups can also be used for administrative, data allocation, and backup and restore strategies.
+
 ### Create index in filegroup
 
 ```sql
@@ -374,6 +413,31 @@ CREATE [ UNIQUE ] [ CLUSTERED | NONCLUSTERED ] INDEX index_name
   [ FILESTREAM_ON { filestream_filegroup_name | partition_scheme_name | "NULL" } ]
 [ ;
 ```
+
+CHATGPT :chad:
+
+Creating an index on a specific filegroup in SQL Server involves specifying the filegroup during the index creation process. This approach is often used for performance optimization, particularly in larger databases. Here's how you can create an index on a specific filegroup:
+
+1. **Ensure the Filegroup Exists**: First, make sure the filegroup you want to use already exists in your database. If it doesn't, you need to create it as I described in the previous message.
+
+2. **Create an Index on the Specific Filegroup**: You can specify the filegroup when creating an index using the `ON` clause. Here is a basic example:
+
+   ```sql
+   CREATE NONCLUSTERED INDEX IndexName
+   ON YourTableName (ColumnName)
+   ON YourFileGroupName;
+   ```
+
+   - `IndexName` is the name you want to give to your new index.
+   - `YourTableName` is the name of the table on which you are creating the index.
+   - `ColumnName` is the name of the column or columns you are indexing.
+   - `YourFileGroupName` is the name of the filegroup where you want to place the index.
+
+   You can replace `NONCLUSTERED` with `CLUSTERED` if you want to create a clustered index, but remember that a table can only have one clustered index.
+
+This structure allows you to control where the physical data for the index is stored, which can be important for optimizing query performance, especially in large-scale or high-transaction databases.
+
+Remember to replace `IndexName`, `YourTableName`, `ColumnName`, and `YourFileGroupName` with the actual names relevant to your database. Also, always consider the impact of new indexes on your database's performance, both in terms of query speed and insert/update/delete operations.
 
 ### Partitioning
 
