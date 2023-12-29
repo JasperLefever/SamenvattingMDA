@@ -17,3 +17,6 @@
 ## [3.4. MongoDB](mongodb.md)
 
 ## [3.5. Neo4j](neo4j.md)
+
+Tis veel hup hup
+![Logo](./assets/new-kids-new-kids-turbo.gif)
