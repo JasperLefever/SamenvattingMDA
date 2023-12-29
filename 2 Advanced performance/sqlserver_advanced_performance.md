@@ -141,15 +141,42 @@ je kan wel dat veld includen in de index
 
 ## 2.1.3. Covering Indexes
 
+- ALs een non-clustered index niet alle velden bevat die nodig zijn voor een query dan moet SQL Server een lookup doen voor elke rij om de ontbrekende velden op te halen
+
+- Converging index -> non-clustered index die alle velden bevat die nodig zijn voor een query
+
 ### Covering index: example (db xtreme with script EmployeeIdx)
 
+Slide 25
+
 ### Use of indexes with functions and wildcards
+
+Slide 28
 
 ## 2.1.4. Concatenated Indexes
 
 ### 1 index with several columns vs. several indexes with 1 column
 
+Welke index je gebruikt hangt af van de query die je het meest zal gebruiken en welke velden je mee zal queryen
+
+Nog veel bla bla slide 30
+
 ### Sort order with concatenated indexes
+
+- Indexen kunne in omgekeerde richting gebruikt worden maar je kunt niet de volgorde van 2 velden mixen
+
+bv:
+
+```sql
+CREATE NONCLUSTERED INDEXEmpLastnameTitle ON Employee
+(
+ LastName ASC,
+ Title ASC
+)
+```
+
+![Alt text](./assets/sorted.png)
+Bij de laatste query hebben ze asc en desc gemixed en dat kan niet
 
 ## 2.1.5. Working with Indexes
 
