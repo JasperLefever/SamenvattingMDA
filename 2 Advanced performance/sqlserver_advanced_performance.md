@@ -17,12 +17,11 @@
     - [1 index with several columns vs. several indexes with 1 column](#1-index-with-several-columns-vs-several-indexes-with-1-column)
     - [Sort order with concatenated indexes](#sort-order-with-concatenated-indexes)
   - [2.1.5. Working with Indexes](#215-working-with-indexes)
-    - [Creation of indexes: syntax](#creation-of-indexes-syntax)
+    - [Creation of indexes](#creation-of-indexes)
     - [Removing indexes](#removing-indexes)
     - [When to use an index](#when-to-use-an-index)
     - [Looking for "expensive" queries](#looking-for-expensive-queries)
   - [2.1.6. Rules of Thumb](#216-rules-of-thumb)
-  - [2.1.7. Quiz](#217-quiz)
   - [2.1.8. Materialized Views (Indexed Views)](#218-materialized-views-indexed-views)
     - [Indexed views: benefits](#indexed-views-benefits)
     - [Indexed views: restrictions](#indexed-views-restrictions)
@@ -32,12 +31,12 @@
     - [Index usage statistics](#index-usage-statistics)
   - [2.1.10. Storage \& Partitions](#2110-storage--partitions)
     - [Storage: files \& filegroups](#storage-files--filegroups)
-    - [Storage: space allocation](#storage-space-allocation)
     - [Storage: examples](#storage-examples)
     - [Storage: conclusions](#storage-conclusions)
     - [Partitioning](#partitioning)
     - [Create table in filegroup](#create-table-in-filegroup)
     - [Create index in filegroup](#create-index-in-filegroup)
+    - [Partitioning](#partitioning-1)
     - [Partitions: example (db stackoverflow)](#partitions-example-db-stackoverflow)
 
 ## 2.1.1. Introduction
@@ -180,23 +179,61 @@ Bij de laatste query hebben ze asc en desc gemixed en dat kan niet
 
 ## 2.1.5. Working with Indexes
 
-### Creation of indexes: syntax
+### Creation of indexes
+
+```sql
+CREATE [UNIQUE] [| NONCLUSTERED]
+INDEX index_name ON table (kolom [,...n])
+```
+
+- Unique: alle waarden in de geïndexeerde kolom moeten uniek zijn
+  - Kolom met unieke index mag niet null zijn
+- Wanneer je een index aanmaakt kan de tabel leeg of gevuld zijn
 
 ### Removing indexes
 
+```sql
+DROP INDEX index_name ON table
+```
+
 ### When to use an index
+
+- Welke kolom indexeren?
+  - Primairy key en unieke kolommen zijn automatisch geïndexeerd
+  - Foreign keys die je vaak gebruikt bij joins
+  - Kolommen die je veel gebruikt in zoekopdrachten (WHERE, GROUP BY, HAVING)
+  - Kolommen die je veel gebruikt in sorteringen (ORDER BY)
+- Welke kolommen niet?
+  - kolommen die nooit gebruikt worden in zoekopdrachten
+  - Kolommen met kleine mogelijkheden (ja/nee, true/false, 1/0, man/vrouw)
+  - Kolommen in kleine tabellen
+  - Kolommen met type bit, text, images
 
 ### Looking for "expensive" queries
 
 ## 2.1.6. Rules of Thumb
 
-## 2.1.7. Quiz
+Slide 43 en verder best practices
 
 ## 2.1.8. Materialized Views (Indexed Views)
 
+View -> Opgeslagen query statement (niet de data)
+
+Een view kan gematerialiseerd worden door een unieke clustered index toe te voegen
+Deze view wordt zo opgeslagen op de disk
+
+Indexed view of materialized view
+
+Hierop kun je dan weet nonclustered indexes maken
+
 ### Indexed views: benefits
 
+- Aggregaties kunnen op voorhand berekend worden
+- Tabellen op voorhand joinen als 1 tabel
+
 ### Indexed views: restrictions
+
+Slide 78 derest trekt uw plan
 
 ### Indexed views: schema binding
 
@@ -206,20 +243,144 @@ Bij de laatste query hebben ze asc en desc gemixed en dat kan niet
 
 ### Index usage statistics
 
+Irelevant
+
 ## 2.1.10. Storage & Partitions
 
 ### Storage: files & filegroups
 
-### Storage: space allocation
+- Elke database heeft minstens 2 files
+  - Data file (.mdf)
+  - Log file (.ldf)
+  - mogelijks extra data files (.ndf)
+- Filegroup
+  - logische groep van files voor administratieve doeleinden
+  - normaal 1 filegroup per db-file
+
+Performantie verbeteren door filegroups:
+
+- Filegroups op verschillende schijven plaatsen
+- Data files en non-clustered indexes op verschillende disks (clustered index is een data file)
+- Log bestanden op aparte schijf voor data veiligheid
+
+Verplaatsen van een tabel naar andere filegroup:
+
+- Drop huidige clustered index
+- Maak nieuwe clustered index aan op de gewenste filegroup
 
 ### Storage: examples
 
+```sql
+REATE TABLE dbo.SmallRows
+(
+Id int NOT NULL,
+LastName nchar(50) NOT NULL,
+FirstName nchar(50) NOT NULL,
+MiddleName nchar(50) NULL
+);
+INSERT INTO dbo.SmallRows
+(
+Id,
+LastName,
+FirstName,
+MiddleName
+)
+SELECT
+BusinessEntityID,
+LastName,
+FirstName,
+MiddleName
+FROM Person.Person;
+
+
+SELECT sys.fn_PhysLocFormatter(%%physloc%%) AS [Row_Locator],
+Id FROM dbo.SmallRows;
+```
+
+![Alt text](./assets/storage.png)
+
+```sql
+CREATE TABLE dbo.LargeRows
+(
+Id int NOT NULL,
+LastName nchar(600) NOT NULL,
+FirstName nchar(600) NOT NULL,
+MiddleName nchar(600) NULL
+);
+INSERT INTO dbo.LargeRows
+(
+Id,
+LastName,
+FirstName,
+MiddleName
+)
+SELECT
+BusinessEntityID,
+LastName,
+FirstName,
+MiddleName
+FROM Person.Person;
+
+SELECT sys.fn_PhysLocFormatter(%%physloc%%) AS [Row_Locator],
+Id FROM dbo.LargeRows;
+```
+
+![Alt text](./assets/bigrows.png)
+
+![Alt text](./assets/storage3.png.png)
+
 ### Storage: conclusions
+
+- Opslag is goedkoop maar het datatype heeft een grote impact op IO
+
+- Denk na over data type en lengte bij het ontwerpen van een tabel
 
 ### Partitioning
 
+Partitioneering zorgt ervoor dat een tabel of index opgedeeld wordt in meerdere delen zodat denkel de nodige delen opgehaald moeten worden
+
+BV: tijdsgebonden data van payrol of accounting alle histroriek is meestal niet nodig
+
 ### Create table in filegroup
+
+```sql
+--Disk-Based CREATE TABLE Syntax
+CREATE TABLE
+    [ database_name . [ schema_name ] . | schema_name . ] table_name
+    [ AS FileTable ]
+    ( { <column_definition> | <computed_column_definition>
+        | <column_set_definition> | [ <table_constraint> ]
+| [ <table_index> ] [ ,...n ] } )
+    [ ON { partition_scheme_name ( partition_column_name ) | filegroup
+        | "default" } ]
+    [ { TEXTIMAGE_ON { filegroup | "default" } ]
+    [ FILESTREAM_ON { partition_scheme_name | filegroup
+        | "default" } ]
+    [ WITH ( <table_option> [ ,...n ] ) ]
+[ ;
+```
 
 ### Create index in filegroup
 
+```sql
+CREATE [ UNIQUE ] [ CLUSTERED | NONCLUSTERED ] INDEX index_name
+ ON <object> ( column [ ASC | DESC ] [ ,...n ] )
+ [ INCLUDE ( column_name [ ,...n ] ) ]
+ [ WHERE <filter_predicate> ]
+ [ WITH ( <relational_index_option>  [ ,...n ] ) ]
+ [ ON { partition_scheme_name ( column_name )
+  | filegroup_name
+  | default } ]
+  [ FILESTREAM_ON { filestream_filegroup_name | partition_scheme_name | "NULL" } ]
+[ ;
+```
+
+### Partitioning
+
+Elke partitie een appate file of filegroup
+
+Oudere en minder gebruikte data worden gesplits van de actuele data
+
 ### Partitions: example (db stackoverflow)
+
+[HIER](./1b._Partitioning.sql)
