@@ -2,7 +2,11 @@
 
 - [2.1 SQL Server Advanced Performance](#21-sql-server-advanced-performance)
   - [2.1.1. Introduction](#211-introduction)
+    - [Space allocation by SQL Server](#space-allocation-by-sql-server)
   - [2.1.2. Clustered \& Non-clustered Indexes](#212-clustered--non-clustered-indexes)
+    - [Table scan](#table-scan)
+    - [INDEXES](#indexes)
+    - [SQL Optimizer](#sql-optimizer)
     - [Clustered index](#clustered-index)
     - [Non-clustered index](#non-clustered-index)
     - [Use of indexes with functions and wildcards](#use-of-indexes-with-functions-and-wildcards)
@@ -38,13 +42,102 @@
 
 ## 2.1.1. Introduction
 
+Bla bla performance is important bla bla
+
+### Space allocation by SQL Server
+
+- Random access files
+- Page → 8 kB blok aaneengesloten geheugen
+- Extent → 8 logisch opeenvolgende pagina's
+  - uniform extends: voor 1 DB-object
+  - mixed extents: kan gedeeld worden met 8 db objecten(=tabellen, indexes, enz.)
+
+→ een extent is een groep van 8 pagina's en een pagina is een block data van 8 kB
+
+→ nieuwe data wordt toegevoegd aan een mixed extent
+
 ## 2.1.2. Clustered & Non-clustered Indexes
+
+### Table scan
+
+- Heap
+
+  - Niet gesorteerde collectie van data-pages
+    - geen index
+  - Standaard manier van opslaan tabel zonder indexen
+
+- Toegang door Index Allocation Map
+- Table scan: gaat alle pages van de tabel ophalen om door te zoeken
+- Performantie probleem:
+  - Fragmentatie:
+    - Tabel verspreid over meerdere niet opvolgende pagina's
+  - Forward pointers
+    - varchar velden kunnen langer worden bij een update → een forward pointer is een verwijzing naar een andere
+      pagina → **TRAAG**
+
+### INDEXES
+
+Index -> gesorteerde collectie records van een tabel -> snelle toegang door boomstructuur (Balanced Tree)
+
+Waarom?
+
+- Performantie
+
+Waarom niet?
+
+- Indexen pakken redelijk veel plaats in
+- Vertragen DML operaties (insert, update, delete)
+
+### SQL Optimizer
+
+- Kiest de beste manier om een query uit te voeren
+- Zet een query om in een executie plan (compiling of parsing)
+- 2 soorten:
+  - Cost based optimizer
+    - meerdere plannen worden gegenereerd en het minst kostende plan wordt gekozen
+  - Rule based optimizer
+    - vooropgestelde regels bepalen de beste manier om een query uit te voeren
+
+Executie plannen worden gecached
+
+![cost](./assets/cost.png)
 
 ### Clustered index
 
+- Fysieke volgorde van de data in de tabel is gelijk aan de volgorde van de index
+- 1 clustered index per tabel
+- Voordelen:
+  - dubbel-gelinkte lijst -> sequential access
+  - geen forward pointers
+- bladeren zijn de data pagina's
+
 ### Non-clustered index
 
+- standaard index
+- trager dan clustered
+- meer dan 1 per tabel
+- forward en backward pointers tussen de bladeren
+- bladeren verwijzen naar de data pagina's
+- Elk blad heeft
+
+  - Key en value
+  - RID row locator
+    - om de data te localiseren in de clustered index als die er is
+    - anders in de base table -> heap
+
+Als er meer velden van een tabel nodig zijn die niet in de index zitten dan
+
+- Lezen via een non-clustered index:
+  - RID lookup:
+    - lookups naar de heap met hun RID
+  - Key lookup:
+    - lookups naar een clustered index als die er is
+
 ### Use of indexes with functions and wildcards
+
+Indexen die gebruik maken van een wildcard in het begin van de zoekterm kunnen niet gebruikt worden
+
+je kan wel dat veld includen in de index
 
 ## 2.1.3. Covering Indexes
 
