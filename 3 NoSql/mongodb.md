@@ -391,6 +391,4 @@ Chatgpt neemt ier fkes over
 
 ## 3.4.10 Excersises
 
-```
-
-```
+Soon

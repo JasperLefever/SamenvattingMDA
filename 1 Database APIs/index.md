@@ -30,6 +30,8 @@
 
 ## 1.1 Database System Architectures
 
+![potat](../fcdk-maurice.gif)
+
 ### Centralized System Architecture
 
 Alle veraantwoordelijkheid ligt bij een centrale server.
