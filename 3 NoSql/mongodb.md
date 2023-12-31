@@ -273,19 +273,121 @@ VERWIJDEREN VAN EEN COLLECTIE:
 
 ## 3.4.3 Excersises
 
+SOON
+
 ---
 
 ## 3.4.4 Introduction
 
+Agregatie: het combineren van meerdere documenten tot 1 resultaat. (berekende resultaten)
+
+MongoDB heeft hier 3 manieren voor:
+
+- De Aggregation Pipeline
+- Map-Reduce (deprecated) -> gaan we niet zien
+- Single Purpose Aggregation Operations
+
 ## 3.4.5 Single Purpose Aggregation Operations
+
+- count: `db.<collection>.countDocuments({<query>})`
+  - telt het aantal documenten die voldoen aan de query
+  - query is optioneel
+  - countDocuments is accurater dan count
+- distinct: `db.<collection>.distinct("name", {<query>})`
+  - geeft een array terug met alle unieke waarden van het veld name
+  - query is optioneel
+  - kun je .length op uitvoeren om het aantal unieke waarden te krijgen
 
 ## 3.4.6 Aggregation Pipeline
 
+Framework voor het uitvoeren van aggregatie operaties.
+
+Werkt aan de hand van stages, elke stage voert een bepaalde operatie uit op de data.
+
+`db.<collection>.aggregate([stage1, stage2, stage3, ...])`
+
+bv:
+`db.<collection>.aggregate([{$match: {name: "John"}}, {$group: {_id: "$age", count: {$sum: 1}}}])`
+
+- $match: filtert de documenten die voldoen aan de query
+- $group: groepeert de documenten op basis van een veld
+  - \_id: het veld waarop gegroepeerd wordt
+  - count: het aantal documenten in de groep (de 1 telt telkens 1 op)
+
+![potat](./assets/image.png)
+
+Alles stages behalve: $out, $merge, $geoNear, $changeStream en $changeStreamSplitLargeEvent mogen meerdere keren voorkomen in de pipeline.
+
+hele lijst van alle stages
+
+| Stage                          | Description                                                                                                                                                                                                                               |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `$addFields`                   | Adds new fields to documents. Reshapes each document by adding new fields to output documents, which contain both the existing fields and the newly added fields.<br>`$set` is an alias for `$addFields`.                                 |
+| `$bucket`                      | Categorizes incoming documents into groups, called buckets, based on a specified expression and bucket boundaries.                                                                                                                        |
+| `$bucketAuto`                  | Categorizes incoming documents into a specified number of groups (buckets) based on a specified expression. Bucket boundaries are automatically determined to distribute the documents evenly.                                            |
+| `$changeStream`                | Returns a Change Stream cursor for the collection. This stage must be the first in the pipeline.                                                                                                                                          |
+| `$changeStreamSplitLargeEvent` | Splits large change stream events (>16 MB) into smaller fragments in a change stream cursor.<br>Used only in a `$changeStream` pipeline as the final stage.                                                                               |
+| `$collStats`                   | Returns statistics regarding a collection or view.                                                                                                                                                                                        |
+| `$count`                       | Returns a count of the number of documents at this stage of the aggregation pipeline.<br>Distinct from the `$count` aggregation accumulator.                                                                                              |
+| `$densify`                     | Creates new documents in a sequence where certain values in a field are missing.                                                                                                                                                          |
+| `$documents`                   | Returns literal documents from input expressions.                                                                                                                                                                                         |
+| `$facet`                       | Processes multiple aggregation pipelines within a single stage on the same set of input documents, enabling the creation of multi-faceted aggregations in a single stage.                                                                 |
+| `$fill`                        | Populates null and missing field values within documents.                                                                                                                                                                                 |
+| `$geoNear`                     | Returns an ordered stream of documents based on proximity to a geospatial point. Incorporates `$match`, `$sort`, and `$limit` for geospatial data. Output documents include a distance field and can include a location identifier field. |
+| `$graphLookup`                 | Performs a recursive search on a collection, adding a new array field to each output document containing the traversal results.                                                                                                           |
+| `$group`                       | Groups input documents by a specified identifier expression and applies accumulator expressions to each group. Outputs one document per distinct group.                                                                                   |
+| `$indexStats`                  | Returns statistics regarding the use of each index for the collection.                                                                                                                                                                    |
+| `$limit`                       | Passes the first `n` documents unmodified to the pipeline where `n` is the specified limit.                                                                                                                                               |
+| `$listSampledQueries`          | Lists sampled queries for all collections or a specific collection.                                                                                                                                                                       |
+| `$listSearchIndexes`           | Returns information about existing Atlas Search indexes on a specified collection.                                                                                                                                                        |
+| `$listSessions`                | Lists all sessions that have been active long enough to propagate to the `system.sessions` collection.                                                                                                                                    |
+| `$lookup`                      | Performs a left outer join to another collection in the same database to filter in documents for processing.                                                                                                                              |
+| `$match`                       | Filters the document stream to allow only matching documents to pass unmodified into the next stage. Uses standard MongoDB queries.                                                                                                       |
+| `$merge`                       | Writes the resulting documents of the aggregation pipeline to a collection. Can incorporate results into an output collection. Must be the last stage in the pipeline.<br>New in version 4.2.                                             |
+| `$out`                         | Writes the resulting documents of the aggregation pipeline to a collection. Must be the last stage in the pipeline.                                                                                                                       |
+| `$planCacheStats`              | Returns plan cache information for a collection.                                                                                                                                                                                          |
+| `$project`                     | Reshapes each document in the stream, such as by adding or removing fields. Outputs one document for each input document.<br>See also `$unset` for removing fields.                                                                       |
+| `$redact`                      | Restricts the content of each document based on information stored in the documents themselves. Incorporates `$project` and `$match`. Outputs one or zero documents for each input document.                                              |
+| `$replaceRoot`                 | Replaces a document with a specified embedded document. Replaces all existing fields, including the `_id` field. Promotes the embedded document to the top level.<br>`$replaceWith` is an alias for `$replaceRoot`.                       |
+| `$sample`                      | Randomly selects the specified number of documents from its input.                                                                                                                                                                        |
+| `$search`                      | Performs a full-text search of the fields in an                                                                                                                                                                                           |
+| `$searchMeta`                  | Returns metadata result documents for the Atlas Search query against an Atlas collection. Only available for MongoDB Atlas clusters running MongoDB v4.4.9 or higher.<br>Note: Not available for self-managed deployments.                |
+| `$set`                         | Adds new fields to documents, similar to `$project`. Reshapes each document by adding new fields to output documents.<br>`$set` is an alias for `$addFields`.                                                                             |
+| `$setWindowFields`             | Groups documents into windows and applies operators to the documents in each window.<br>New in version 5.0.                                                                                                                               |
+| `$skip`                        | Skips the first `n` documents, where `n` is the specified skip number, and passes the remaining documents unmodified to the pipeline.                                                                                                     |
+| `$sort`                        | Reorders the document stream by a specified sort key. Outputs one document for each input document.                                                                                                                                       |
+| `$sortByCount`                 | Groups incoming documents based on the value of a specified expression, then computes the count of documents in each group.                                                                                                               |
+| `$unionWith`                   | Performs a union of two collections, combining pipeline results from two collections into a single result set.<br>New in version 4.4.                                                                                                     |
+| `$unset`                       | Removes/excludes fields from documents. An alias for `$project` stage that removes fields.                                                                                                                                                |
+| `$unwind`                      | Deconstructs an array field from input documents to output a document for each element. Outputs `n` documents for each input document, where `n` is the number of array elements.                                                         |
+
 ## 3.4.7 Examples Zipcodes
+
+Allemaal voorbeeldjes zie cursus
 
 ## 3.4.8 Examples User Preference Data
 
+Allemaal voorbeeldjes zie cursus
+
 ## 3.4.9 Pipeline Operations
+
+Chatgpt neemt ier fkes over
+
+1. **\$match**: This operator is used to filter documents based on specified criteria. It's best practice to use \$match early in the pipeline to quickly reduce the number of documents processed by subsequent stages. Example: `db.zips.aggregate({$match: {state: "NY"}})`.
+
+2. **\$project**: This operator allows you to select, exclude, or transform fields in the incoming documents. You can include or exclude fields, rename fields, and perform operations on them. For instance, `db.zips.aggregate({$project: {stateId: "$_id", _id: 0}})` renames the "\_id" field to "stateId".
+
+3. **Mathematical expressions**: These include operations like \$multiply, \$divide, \$add, and \$subtract, allowing arithmetic manipulations of numeric fields in documents. For example, `{$project: {twicePop: {$multiply: ["$pop", 2]}}}` doubles the population value.
+
+4. **Date expressions**: These are used for extracting and manipulating date fields, with operators like $year, $month, $dayOfMonth, etc.
+
+5. **String expressions**: Operations like \$substr, \$concat, \$toLower, and \$toUpper are used to manipulate string fields. For example, `$concat` can merge multiple string fields into one.
+
+6. **\$group**: This operator groups documents by specified fields and performs aggregations like sum, average, max, min, etc. For example, `db.zips.aggregate({$group: {_id: "$state", totalPop: {$sum: "$pop"}}})` calculates the total population per state.
+
+7. **$unwind**: It's used to deconstruct array fields, creating a new document for each element in the array. It's useful for processing subdocuments in arrays, like comments in blog posts.
+
+8. **$sort, $limit, $skip**: These operators control the ordering and the number of documents in the result. $sort orders the documents, $limit restricts the number of documents returned, and $skip skips a specified number of documents.
 
 ## 3.4.10 Excersises
 
