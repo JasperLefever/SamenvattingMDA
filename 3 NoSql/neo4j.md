@@ -156,3 +156,7 @@ DETATCH DELETE n
 ```
 
 NOTE: DETATCH verwijdert alle relaties van de node anders krijg je errors dat de node nog relaties heeft.
+
+## Oefeningen
+
+SOON
