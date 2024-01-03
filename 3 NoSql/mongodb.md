@@ -395,6 +395,10 @@ Chatgpt neemt ier fkes over
 
 ## 3.4.10 Excersises
 
+Mussa goat
+
+Volledige oef staan [hier](./mongodbOplossingDeel1.js)
+
 ### Excersise 1
 
 ```
