@@ -59,33 +59,6 @@ db.cheese.aggregate([
 
 // Exercise 2
 
-//Give per share the average closing price, the minimum closing price, the maximum closing price and the
-//average number of shares traded per day.
-
-db.cheese.aggregate([
-    {
-        $group: {
-            _id: "$properties.cheesetype", 
-            count: { $sum: 1 }
-        }
-    },
-    {
-        $project: {
-            cheesetype: { $toUpper: "$_id" },
-            count: 1,
-            _id: 0
-        }
-    }
-]);
-
-
-
-
-
-
-
-use info
-
 db.bel20.insert({name: "KBC", date:ISODate("2013-11-26"), price: {open: 40.51, high: 40.84, low: 40.35, end: 40.71}, number: 2280300});
 db.bel20.insert({name: "KBC", date:ISODate("2013-11-25"), price: {open: 40, high: 40.56, low: 39.97, end: 40.28}, number: 829500});
 db.bel20.insert({name: "KBC", date:ISODate("2013-11-22"), price: {open: 39.53, high: 39.85, low: 39.32, end: 39.7}, number: 730400});
@@ -121,52 +94,36 @@ db.bel20.insert({name: "Elia", date:ISODate("2013-11-06"), price: {open: 33.79, 
 db.bel20.insert({name: "Elia", date:ISODate("2013-11-05"), price: {open: 33.78, high: 33.84, low: 33.64, end: 33.78}, number: 23700});
 db.bel20.insert({name: "Elia", date:ISODate("2013-11-04"), price: {open: 33.99, high: 33.99, low: 33.69, end: 33.72}, number: 24000});
 
+//Give per share the average closing price, the minimum closing price, the maximum closing price and the 
+//average number of shares traded per day.  
 db.bel20.aggregate([
-{
-$group :{
-    _id:'$name',
-    avgClosingPrice:{$avg:"$price.open"},
-    minClosingPrice:{$min:"$price.end"},
-    maxClosingPrice:{$max:"$price.end"},
-    avgSharedPerDay:{$avg:"$number"}
-}
-    
-}
-])
+    {
+        $group: {
+            _id: "$name",
+            averageClosingPrice: { $avg: "$price.end" },
+            minClosingPrice: { $min: "$price.end" },
+            maxClosingPrice: { $max: "$price.end" },
+            averageNumberShares: { $avg: "$number" }
+        }
+    }
+]);
+
+
+//Give per share the minimum closing price and the week in which this minimum closing price occurred. E.g. 
+// KBC - minprice = 39.1 - week = 44 
+// Elia - minprice = 33.38 - week = 46
 
 db.bel20.aggregate([
     {
-        $project: {
-            name: 1,
-            endPrice: "$price.end",
+        $addFields: {
             week: { $week: "$date" }
         }
     },
     {
         $group: {
             _id: "$name",
-            minPrice: { $min: "$endPrice" },
-            weeks: { $push: "$week" }
+            minClosingPrice: { $min: "$price.end" },
+            minPriceWeek: { $first: "$week" }
         }
-    },
-    {
-        $unwind: "$weeks"
-    },
-    {
-        $group: {
-            _id: { name: "$_id", minPrice: "$minPrice" },
-            weeks: { $addToSet: "$weeks" }
-        }
-    },
-    {
-        $project: {
-            _id: 0,
-            name: "$_id.name",
-            minPrice: "$_id.minPrice",
-            week: { $first: "$weeks" }
-        }
-    },
-    {
-        $sort: { name: 1 }
     }
 ]);
