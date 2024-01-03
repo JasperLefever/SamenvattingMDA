@@ -402,31 +402,50 @@ Volledige oef staan [hier](./mongodbOplossingDeel1.js)
 ### Excersise 1
 
 ```js
-db.smartphones.find({price: { $gt: 400, $lt : 700}})
+db.smartphones.find({ price: { $gt: 400, $lt: 700 } });
 
-db.smartphones.find({'system.os': {$regex : /Android.*/i}})
+db.smartphones.find({ "system.os": { $regex: /Android.*/i } });
 
-db.smartphones.find({}, {name: true, price: true, review: true, _id: false}).sort({price: -1}).limit(1)
+db.smartphones
+  .find({}, { name: true, price: true, review: true, _id: false })
+  .sort({ price: -1 })
+  .limit(1);
 
-db.smartphones.update({name : {$regex: /Apple Iphone.*/i}}, {$set: {wifi: ['802.11b', '802.11g', '802.11n']}})
+db.smartphones.update(
+  { name: { $regex: /Apple Iphone.*/i } },
+  { $set: { wifi: ["802.11b", "802.11g", "802.11n"] } }
+);
 
-db.smartphones.find({name : {$regex: /Apple Iphone.*/i}})
+db.smartphones.find({ name: { $regex: /Apple Iphone.*/i } });
 
-db.smartphones.find({organizer: {$all: ["Phonebook", "Clock"]},  organizer: { $nin: ["Call list", "Calculator"] }})
+db.smartphones.find({
+  organizer: { $all: ["Phonebook", "Clock"] },
+  organizer: { $nin: ["Call list", "Calculator"] },
+});
 ```
 
 ### Excersise 2
 
 ```js
-db.photoframes.find({$or: [{price: {$lt: 50}}, {"properties.screensize": {$lt: 20}}]})
+db.photoframes.find({
+  $or: [{ price: { $lt: 50 } }, { "properties.screensize": { $lt: 20 } }],
+});
 
-db.photoframes.find({}, {_id: false, name: true, "properties.screensize": true }).sort({price: 1}).limit(1)
+db.photoframes
+  .find({}, { _id: false, name: true, "properties.screensize": true })
+  .sort({ price: 1 })
+  .limit(1);
 
-db.photoframes.find({reviews: { $exists: true, $not: { $size: 1 } }})
+db.photoframes.find({ reviews: { $exists: true, $not: { $size: 1 } } });
 
-db.photoframes.find( {"memorycard": { $all: ["SDHC", "MMC", "xD"], $nin: ["MS", "CF"]}})
+db.photoframes.find({
+  memorycard: { $all: ["SDHC", "MMC", "xD"], $nin: ["MS", "CF"] },
+});
 
-db.photoframes.updateMany({"properties.contrastratio" : {$nin: ["500:1", "600:1", "700:1"]}}, {'$set':{'remark':'Not available'}})
+db.photoframes.updateMany(
+  { "properties.contrastratio": { $nin: ["500:1", "600:1", "700:1"] } },
+  { $set: { remark: "Not available" } }
+);
 ```
 
 ### Excersise 3
@@ -434,31 +453,69 @@ db.photoframes.updateMany({"properties.contrastratio" : {$nin: ["500:1", "600:1"
 ```js
 //Give all laptops with a pruce between 500 and 1000 with a hard disk of 850 gb
 
-db.laptops.find({$or:[{$and:[{price:{$gt:500}},{price:{$lt:1000}}]},{'properties.HD':'850GB'}]})
+db.laptops.find({
+  $or: [
+    { $and: [{ price: { $gt: 500 } }, { price: { $lt: 1000 } }] },
+    { "properties.HD": "850GB" },
+  ],
+});
 
 // Change windows 10 to Windows 11
 
-db.laptops.updateMany({'properties.OS':'Windows 10'},{'$set':{'properties.OS':'Windows 11'}})
+db.laptops.updateMany(
+  { "properties.OS": "Windows 10" },
+  { $set: { "properties.OS": "Windows 11" } }
+);
 
 //Give name,price and operating System of the 2 cheapest Laptop
 
-db.laptops.find({},{name:true,price:true,'properties.OS':true,_id:false}).sort({price:1}).limit(2)
+db.laptops
+  .find({}, { name: true, price: true, "properties.OS": true, _id: false })
+  .sort({ price: 1 })
+  .limit(2);
 
 //Give all laptops with at least 1 review with a score between 4 and 4.2
-db.laptops.find({'reviews.score':{$gte:4,$lte:4.2}})
+db.laptops.find({ "reviews.score": { $gte: 4, $lte: 4.2 } });
 
 //Give all laptops with 2 USB 3_0 ports and that support at least 2 languages including dutch
-db.laptops.find({$and:[{'properties.USB.USB3_0':2}, {LanguageOS:'Dutch'}, {$where: "this.LanguageOS.length>=2"}]})
+db.laptops.find({
+  $and: [
+    { "properties.USB.USB3_0": 2 },
+    { LanguageOS: "Dutch" },
+    { $where: "this.LanguageOS.length>=2" },
+  ],
+});
 ```
 
 ### Excersise 4
 
 ```js
 // 1. Give all irons of the brand Philips or Tefal that cost 30 euros or less, that are red, have a power of 2000 or more and have a cord storage space and spray function.
-db.irons.find({$and:[{brand:{$in:['Philips','Tefal']}},{price:{$lte:30}},{'technically.power':{$gte:2000}},{extras:'spray function'},{extras:'cord storage space'}]})
+db.irons.find({
+  $and: [
+    { brand: { $in: ["Philips", "Tefal"] } },
+    { price: { $lte: 30 } },
+    { "technically.power": { $gte: 2000 } },
+    { extras: "spray function" },
+    { extras: "cord storage space" },
+  ],
+});
 
 // 2. Give the model, price and brand of the most expensive iron that is not red, weighing less than 2 kilos,
 // that has at least 2 plus points, a maximum height of 20 centimeters and that does not have cord storage space as extra
 
-db.irons.find({$and:[ {'description.color':{$not: {$regex:/red.*/i}}},{'technically.weight':{$lt:2}},{'reviews.plus':{$not:{$size:1}}},{'measures.height':{$lte:20}},{extras:{$ne:'cord storage space'}}]},{model:true,price:true,brand:true})
+db.irons.find(
+  {
+    $and: [
+      { "description.color": { $not: { $regex: /red.*/i } } },
+      { "technically.weight": { $lt: 2 } },
+      { "reviews.plus": { $not: { $size: 1 } } },
+      { "measures.height": { $lte: 20 } },
+      { extras: { $ne: "cord storage space" } },
+    ],
+  },
+  { model: true, price: true, brand: true }
+);
 ```
+
+Oplossingen aggregate staan [hier](./OplossingenMongoPart2.js.js)
