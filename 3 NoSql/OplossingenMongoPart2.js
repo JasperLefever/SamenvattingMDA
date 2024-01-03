@@ -25,11 +25,21 @@ db.cheese.aggregate([
 
 
 // Give the number of cheeses per cheese factory with at least 2 variants.
-
 db.cheese.aggregate([
     {
         $match: {
-            "variants": { $exists: true, $not: {$size: 0} }
+            "variants": { $exists: true }
+        }
+    },
+    {
+        $project: {
+            factory: "$factory",
+            count_variants: { $size: "$variants" }
+        }
+    },
+    {
+        $match: {
+            count_variants: { $gte: 2 }
         }
     },
     {
@@ -39,19 +49,13 @@ db.cheese.aggregate([
         }
     },
     {
-        $match: {
-            "count": { $gte: 2 }
-        }
-    },
-    {
         $project: {
             factory: "$_id",
             numberOfCheeses: "$count",
             _id: 0
         }
     }
-]);
-
+])
 
 // Exercise 2
 
