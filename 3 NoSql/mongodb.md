@@ -18,6 +18,10 @@
   - [3.4.8 Examples User Preference Data](#348-examples-user-preference-data)
   - [3.4.9 Pipeline Operations](#349-pipeline-operations)
   - [3.4.10 Excersises](#3410-excersises)
+    - [Excersise 1](#excersise-1)
+    - [Excersise 2](#excersise-2)
+    - [Excersise 3](#excersise-3)
+    - [Excersise 4](#excersise-4)
 
 ## 3.4.1 Introduction to MongoDB
 
@@ -391,4 +395,44 @@ Chatgpt neemt ier fkes over
 
 ## 3.4.10 Excersises
 
-Soon
+### Excersise 1
+
+```
+db.smartphones.find({price: { $gt: 400, $lt : 700}})
+
+db.smartphones.find({'system.os': {$regex : /Android.*/i}})
+
+db.smartphones.find({}, {name: true, price: true, review: true, _id: false}).sort({price: -1}).limit(1)
+
+db.smartphones.update({name : {$regex: /Apple Iphone.*/i}}, {$set: {wifi: ['802.11b', '802.11g', '802.11n']}})
+
+db.smartphones.find({name : {$regex: /Apple Iphone.*/i}})
+
+db.smartphones.find({organizer: {$all: ["Phonebook", "Clock"]},  organizer: { $nin: ["Call list", "Calculator"] }})
+```
+
+### Excersise 2
+
+```
+db.photoframes.find({$or: [{price: {$lt: 50}}, {"properties.screensize": {$lt: 20}}]})
+
+db.photoframes.find({}, {_id: false, name: true, "properties.screensize": true }).sort({price: 1}).limit(1)
+
+db.photoframes.find({reviews: { $exists: true, $not: { $size: 1 } }})
+
+db.photoframes.find( {"memorycard": { $all: ["SDHC", "MMC", "xD"], $nin: ["MS", "CF"]}})
+
+db.photoframes.updateMany({"properties.contrastratio" : {$nin: ["500:1", "600:1", "700:1"]}}, {'$set':{'remark':'Not available'}})
+```
+
+### Excersise 3
+
+```
+
+```
+
+### Excersise 4
+
+```
+
+```
