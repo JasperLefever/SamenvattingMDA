@@ -70,7 +70,7 @@ Als je de hashes willen versprijden over 3 servers:
   - ring-topologie -> representatie van alle hashes in een ring vorm
   - Elke key wordt gehashed en op de ring geplaatst.
   - Vervolgens wordt deze aan de eerste node toegekend die je tegenkomt als je de ring rond gaat in de klokzin.
-  - ![consistent hashing](./assets/consistent_hashing.png.png)
+  - ![consistent hashing](./assets/consistent_hashing.png)
   - Bij een goeie hashfunctie zal de verdeling per server ongeveer 1/n zijn.
   - Meeste keys zullen dus ook niet verplaatst moeten worden als er een node bijkomt of wegvalt.
   - ![consistent hashing2](./assets/consistent_hashing2.png)
