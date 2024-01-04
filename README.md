@@ -21,3 +21,6 @@ Groetjes, Jasper
 ### [5. Elastic Search](./5%20Elastic%20Search/index.md)
 
 ### [6. Vector Databases](./6%20Vector%20Databases/index.md)
+
+
+[Regex cheat sheet](./Regular%20Expressions%20Cheat%20Sheet%20by%20DaveChild%20-%20Cheatography.com.pdf)
