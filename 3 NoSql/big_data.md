@@ -41,7 +41,7 @@ Data wordt opgehaald uit een **data bron** -> wordt verwerkt -> wordt verstuurd 
 
 ![DDS](./assets/dss.png)
 
-OLTTP = Online Transaction Processing -> korte termijn beslissingen
+OLTP = Online Transaction Processing -> korte termijn beslissingen
 OLAP = Online Analytical Processing -> middelange en lange termijn beslissingen
 
 ### What do users want?
