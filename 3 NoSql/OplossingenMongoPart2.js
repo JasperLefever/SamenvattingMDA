@@ -57,6 +57,22 @@ db.cheese.aggregate([
     }
 ])
 
+//OF
+
+db.cheese.aggregate([
+    {$match:
+        {
+            'variants.1': {$exists: true}
+        }
+    },
+    {$group:
+        {
+            _id: '$factory',
+            amountOfCheesesPerFactory: {$sum: 1}
+        }
+    }
+])
+
 // Exercise 2
 
 db.bel20.insert({name: "KBC", date:ISODate("2013-11-26"), price: {open: 40.51, high: 40.84, low: 40.35, end: 40.71}, number: 2280300});
