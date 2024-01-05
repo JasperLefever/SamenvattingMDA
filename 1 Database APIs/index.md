@@ -59,7 +59,6 @@ Enkel UI logica op client.
 
 Bussiness en database logica worden uitgevoerd op de server
 
-voorbeeld: Webapplicaties -> client is de browser en de server is de webserver
 
 ### Database System Architectures
 
