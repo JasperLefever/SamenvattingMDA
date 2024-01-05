@@ -14,10 +14,15 @@ Be aware there are separate 32-bit and 64-bit versions of the ODBC Administrator
 '''
 # execute "pip install pyodbc" from the OS prompt
 import pyodbc  
+user= "sa"
+password = "The_Nights"
+server_name = "localhost"
+database_name = "xtreme"
+
 
 # connect to MS-SQL Server database using Windows authentication (Trusted_Connection=yes)
 # connections strings are vendor specific!
-conn = pyodbc.connect(r'DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost;DATABASE=xtreme;UID=sa;PWD=The_Nights;TrustServerCertificate=yes;')
+conn = pyodbc.connect(f"DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server_name};DATABASE={database_name};UID={user};PWD={password};TrustServerCertificate=yes;")
 
 query = "SELECT TOP 5 employeeid,lastname,firstname,salary FROM employee WHERE salary < 40000 order by salary desc"
 cursor = conn.cursor()
@@ -39,7 +44,7 @@ In database xtreme:
     as
         SELECT TOP 5 employeeid,lastname,firstname,salary FROM employee WHERE salary < 40000 order by Salary desc
 '''
-conn = pyodbc.connect(r'DRIVER={ODBC Driver 18 for SQL Server};SERVER=localhost;DATABASE=xtreme;UID=sa;PWD=The_Nights;TrustServerCertificate=yes;')
+conn = pyodbc.connect(f"DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server_name};DATABASE={database_name};UID={user};PWD={password};TrustServerCertificate=yes;")
 query = "exec Emps40000"
 cursor = conn.cursor()
 cursor.execute(query)
@@ -57,9 +62,9 @@ conn.close()
 from sqlalchemy import URL, create_engine  
 from sqlalchemy import Table, MetaData, desc
 from sqlalchemy.orm import declarative_base
-engine = create_engine('mssql+pyodbc://localhost/xtreme?trusted_connection=yes&driver=ODBC+Driver+18+for+SQL+Server')
-conn = engine.connect()
+engine = create_engine(f"mssql+pyodbc://{user}:{password}@{server_name}/{database_name}?driver=ODBC+Driver+18+for+SQL+Server&trusted_connection=no&Encrypt=no")
 metadata = MetaData()  
+conn = engine.connect()
 
 Base = declarative_base() # initialize Base class
 Base.metadata.reflect(engine)   # get metadata from database
@@ -88,11 +93,9 @@ conn.close()
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import declarative_base
-conStringXtreme = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER=localhost;DATABASE=xtreme;UID=sa;PWD=The_Nights;TrustServerCertificate=yes' 
-connection_url_xtreme = URL.create("mssql+pyodbc", query={"odbc_connect": conStringXtreme}) # connectionString hergebruiken we gewoon.
-engine = create_engine(connection_url_xtreme)
+engine = create_engine(f"mssql+pyodbc://{user}:{password}@{server_name}/{database_name}?driver=ODBC+Driver+18+for+SQL+Server&trusted_connection=no&Encrypt=no")
+metadata = MetaData()
 conn = engine.connect()
-metadata = MetaData()  
 
 Base = declarative_base() # initialize Base class
 Base.metadata.reflect(engine)   # get metadata from database
