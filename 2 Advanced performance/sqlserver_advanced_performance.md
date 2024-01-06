@@ -448,3 +448,161 @@ Oudere en minder gebruikte data worden gesplits van de actuele data
 ### Partitions: example (db stackoverflow)
 
 [HIER](./1b._Partitioning.sql)
+
+Nog voorbeeldje:
+
+```sql
+-- Assuming YourDatabaseName is your database name
+
+-- Create filegroups for each month
+ALTER DATABASE [YourDatabaseName] ADD FILEGROUP FG_SalesData_2020_01;
+ALTER DATABASE [YourDatabaseName] ADD FILEGROUP FG_SalesData_2020_02;
+-- ... Continue for each month up to December 2021
+
+-- Add file for each filegroup (modify the path as needed)
+ALTER DATABASE [YourDatabaseName]
+ADD FILE (
+  NAME = N'Partition2020_01',
+  FILENAME = N'C:\SQLData\Partition2020_01.ndf',
+  SIZE = 10MB,
+  FILEGROWTH = 5MB
+) TO FILEGROUP FG_SalesData_2020_01;
+
+ALTER DATABASE [YourDatabaseName]
+ADD FILE (
+  NAME = N'Partition2020_02',
+  FILENAME = N'C:\SQLData\Partition2020_02.ndf',
+  SIZE = 10MB,
+  FILEGROWTH = 5MB
+) TO FILEGROUP FG_SalesData_2020_02;
+
+-- ... Continue adding files for each month up to December 2021
+
+-- Create partition function
+CREATE PARTITION FUNCTION pf_SalesDataMonthly (datetime)
+AS RANGE RIGHT FOR VALUES (
+  '2020-01-01', '2020-02-01', '2020-03-01', '2020-04-01', '2020-05-01', '2020-06-01',
+  '2020-07-01', '2020-08-01', '2020-09-01', '2020-10-01', '2020-11-01', '2020-12-01',
+  '2021-01-01', '2021-02-01', '2021-03-01', '2021-04-01', '2021-05-01', '2021-06-01',
+  '2021-07-01', '2021-08-01', '2021-09-01', '2021-10-01', '2021-11-01', '2021-12-01'
+);
+
+-- Create partition scheme
+CREATE PARTITION SCHEME ps_SalesDataMonthly
+AS PARTITION pf_SalesDataMonthly
+TO (
+  FG_SalesData_2020_01, FG_SalesData_2020_02, ..., FG_SalesData_2021_12
+);
+
+-- Create the SalesData table
+DROP TABLE IF EXISTS SalesData;
+
+CREATE TABLE SalesData
+(
+  SaleId INT IDENTITY PRIMARY KEY,
+  SaleDate DATETIME,
+  Amount MONEY
+) ON ps_SalesDataMonthly (SaleDate);
+
+```
+
+Verschilde partition functions:
+
+1. **Range Partitioning (Yearly) - DATE/TIME Column**:
+
+   ```sql
+   CREATE PARTITION FUNCTION pf_YearlyPartition (datetime)
+   AS RANGE RIGHT FOR VALUES ('2020-01-01', '2021-01-01', '2022-01-01', ...);
+   ```
+
+   This partitions data based on years. For example, all data with a date in 2020 goes into one partition, 2021 in another, and so on.
+
+2. **Range Partitioning (Monthly) - DATE/TIME Column**:
+
+   ```sql
+   CREATE PARTITION FUNCTION pf_MonthlyPartition (datetime)
+   AS RANGE RIGHT FOR VALUES ('2020-01-01', '2020-02-01', '2020-03-01', ...);
+   ```
+
+   This is similar to the yearly partition, but it breaks down data by months.
+
+3. **List Partitioning - INTEGER Column**:
+
+   ```sql
+   CREATE PARTITION FUNCTION pf_ListPartition (int)
+   AS RANGE RIGHT FOR VALUES (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ...);
+   ```
+
+   This is useful for partitioning based on specific integer values, such as status codes, categories, or other discrete numeric values.
+
+4. **Range Partitioning - DECIMAL Column (e.g., for monetary values)**:
+
+   ```sql
+   CREATE PARTITION FUNCTION pf_RangeDecimalPartition (decimal(10, 2))
+   AS RANGE RIGHT FOR VALUES (100.00, 500.00, 1000.00, ...);
+   ```
+
+   This partitions data based on a range of decimal values, like price or amount ranges.
+
+5. **Range Partitioning - BIGINT Column (e.g., for large numeric identifiers)**:
+
+   ```sql
+   CREATE PARTITION FUNCTION pf_RangeBigIntPartition (bigint)
+   AS RANGE RIGHT FOR VALUES (1000000, 2000000, 3000000, ...);
+   ```
+
+   Ideal for partitioning large datasets based on bigint identifier values, such as very large user IDs or transaction numbers.
+
+6. **Range Partitioning (Custom) - VARCHAR Column**:
+   ```sql
+   CREATE PARTITION FUNCTION pf_RangeVarcharPartition (varchar(50))
+   AS RANGE RIGHT FOR VALUES ('A', 'F', 'K', 'P', ...);
+   ```
+   This can be used for alphabetical range partitions or other string-based categorizations.
+
+Nog een ander voorbeeld van partitioning:
+
+1. **Creating Filegroups**:
+
+```sql
+ALTER DATABASE YourDatabase ADD FILEGROUP FG_Partition1;
+ALTER DATABASE YourDatabase ADD FILEGROUP FG_Partition2;
+```
+
+2. **Adding Files to Filegroups**:
+
+   ```sql
+   ALTER DATABASE YourDatabase
+   ADD FILE (
+       NAME = N'Partition1File',
+       FILENAME = 'C:\Data\Partition1File.ndf',
+       SIZE = 100MB
+   ) TO FILEGROUP FG_Partition1;
+
+   ALTER DATABASE YourDatabase
+   ADD FILE (
+       NAME = N'Partition2File',
+       FILENAME = 'D:\Data\Partition2File.ndf',
+       SIZE = 100MB
+   ) TO FILEGROUP FG_Partition2;
+   ```
+
+3. **Creating Partition Function and Scheme**:
+
+   ```sql
+   CREATE PARTITION FUNCTION MyPartitionFunction (int)
+   AS RANGE LEFT FOR VALUES (1000, 2000);
+
+   CREATE PARTITION SCHEME MyPartitionScheme
+   AS PARTITION MyPartitionFunction
+   TO (FG_Partition1, FG_Partition2, [PRIMARY]);
+   ```
+
+4. **Creating a Partitioned Table**:
+
+```sql
+CREATE TABLE MyPartitionedTable (
+    Id int,
+    Data varchar(100)
+) ON MyPartitionScheme (Id);
+```
