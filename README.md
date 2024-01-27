@@ -6,8 +6,6 @@ Samenvatting van het vak (niet zo) Modern Data Architectures (2023-2024) aan de 
 
 Groetjes, Jasper
 
-![Logo](new-kids-new-kids-turbo.gif)
-
 ## Inhoudsopgave
 
 ### [1. Database Apis](./1%20Database%20APIs/index.md)
