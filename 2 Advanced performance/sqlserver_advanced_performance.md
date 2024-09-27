@@ -41,7 +41,7 @@
 
 ## 2.1.1. Introduction
 
-Bla bla performance is important bla bla
+Performance is important
 
 ### Space allocation by SQL Server
 
