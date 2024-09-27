@@ -2,7 +2,7 @@
 
 Jow gasten,
 
-Samenvatting van het vak (niet zo) Modern Data Architectures (2023-2024) aan de Hogeschool Gent.
+Samenvatting van het OLOD Modern Data Architectures (2023-2024) aan de Hogeschool Gent.
 
 Groetjes, Jasper
 
